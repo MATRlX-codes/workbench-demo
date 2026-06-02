@@ -66,7 +66,7 @@ export default function QueuePage() {
   const allPending = approvals.filter((a) => a.status === "pending");
 
   return (
-    <div className="px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
+    <div className="px-4 sm:px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
       <PageHeader
         title="Approval queue"
         subtitle={

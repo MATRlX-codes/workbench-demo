@@ -92,7 +92,7 @@ export default function ActivityPage() {
   );
 
   return (
-    <div className="px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
+    <div className="px-4 sm:px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
       <PageHeader title="Activity" subtitle="Audit log of every action taken by Claude and your approvals" />
 
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">

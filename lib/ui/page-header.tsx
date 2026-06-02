@@ -24,17 +24,17 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
 
   return (
     <header
-      className="apple-subnav flex items-center justify-between px-8 sticky top-0 z-30"
+      className="apple-subnav flex items-center justify-between gap-3 px-4 sm:px-8 sticky top-0 z-30"
       style={{ height: 64 }}
     >
-      <div className="flex items-baseline gap-3">
-        <h1 className="apple-tagline" style={{ fontSize: 21 }}>
+      <div className="flex items-baseline gap-3 min-w-0">
+        <h1 className="apple-tagline truncate" style={{ fontSize: "clamp(17px, 4.5vw, 21px)" }}>
           {title}
         </h1>
-        <span className="apple-fine">{subtitle}</span>
+        <span className="apple-fine hidden md:inline">{subtitle}</span>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
         <button
           className="flex items-center justify-center rounded-full transition-colors"
           style={{ width: 36, height: 36, color: "#1D1D1F" }}
@@ -62,7 +62,7 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
             >
               {company.initials}
             </div>
-            <span style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 500, color: "#1D1D1F", letterSpacing: "-0.005em" }}>
+            <span className="hidden sm:inline" style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 500, color: "#1D1D1F", letterSpacing: "-0.005em" }}>
               {company.name}
             </span>
             <ChevronsUpDown className="w-3.5 h-3.5" style={{ color: "#86868B" }} />
@@ -70,7 +70,7 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
 
           {open && (
             <div
-              className="absolute right-0 mt-2 rounded-[16px] overflow-hidden"
+              className="absolute right-0 mt-2 rounded-[16px] overflow-hidden max-w-[calc(100vw-2rem)]"
               style={{
                 width: 320,
                 background: "#FFFFFF",

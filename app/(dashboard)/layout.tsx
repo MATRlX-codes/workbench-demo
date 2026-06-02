@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/lib/ui/sidebar";
+import { AppShell } from "@/lib/ui/app-shell";
 import { CompanyProvider } from "@/lib/mock/company-context";
 import { DashboardProviders } from "@/lib/mock/dashboard-providers";
 import { DEMO_MODE } from "@/lib/dev/demo-mode";
@@ -20,15 +20,7 @@ export default async function DashboardLayout({
   return (
     <CompanyProvider>
       <DashboardProviders>
-        <div className="flex min-h-screen" style={{ background: "#1D1D1F" }}>
-          <Sidebar />
-          <main
-            className="flex-1 min-w-0 overflow-y-auto"
-            style={{ background: "#F5F5F7", color: "#1D1D1F", minHeight: "100vh" }}
-          >
-            {children}
-          </main>
-        </div>
+        <AppShell>{children}</AppShell>
       </DashboardProviders>
     </CompanyProvider>
   );

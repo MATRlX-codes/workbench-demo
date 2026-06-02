@@ -197,10 +197,10 @@ export default function CustomersPage() {
     <>
       <PageHeader title="Customers & trade" subtitle={`${CUSTOMERS.length} accounts · ${trade} trade · ${retail} retail · £${totalOutstanding.toLocaleString()} outstanding`} />
 
-      <div className="flex" style={{ height: "calc(100vh - 60px)" }}>
+      <div className="flex flex-col md:flex-row md:h-[calc(100vh-60px)]">
 
         {/* ─────────── LEFT PANE ─────────── */}
-        <div className="w-[340px] shrink-0 flex flex-col" style={{ borderRight: "1px solid #E0E0E0", background: "#FFFFFF" }}>
+        <div className="w-full md:w-[340px] shrink-0 flex flex-col" style={{ borderRight: "1px solid #E0E0E0", background: "#FFFFFF" }}>
           <div className="p-3" style={{ borderBottom: "1px solid #E0E0E0" }}>
             <div className="relative mb-3">
               <Search className="absolute w-3.5 h-3.5" style={{ left: 14, top: 13, color: "#86868B" }} />
@@ -230,7 +230,7 @@ export default function CustomersPage() {
             </div>
           </div>
 
-          <div className="scroll-y flex-1">
+          <div className="scroll-y flex-1 max-h-[50vh] md:max-h-none">
             {filtered.map((c) => {
               const out = parseFloat(c.outstanding.replace(/[^0-9.]/g, ""));
               return (
@@ -269,7 +269,7 @@ export default function CustomersPage() {
         </div>
 
         {/* ─────────── DETAIL PANE ─────────── */}
-        <div className="flex-1 overflow-y-auto px-8 py-7">
+        <div className="flex-1 md:overflow-y-auto px-4 sm:px-8 py-7">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
@@ -305,7 +305,7 @@ export default function CustomersPage() {
           </div>
 
           {/* Headline KPIs */}
-          <div className="grid grid-cols-4 gap-3 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             <div className="apple-card p-4">
               <div className="apple-fine">Lifetime spend</div>
               <div className="tnum apple-display mt-1" style={{ fontSize: 22 }}>{selected.totalSpend}</div>
@@ -366,7 +366,7 @@ export default function CustomersPage() {
 
           {/* ─────── OVERVIEW ─────── */}
           {detailTab === "overview" && (
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Spend chart */}
               <div className="apple-card p-5 col-span-2">
                 <div className="flex items-baseline justify-between mb-3">
@@ -676,7 +676,8 @@ function NewQuoteModal({
               <span className="pill pill-soft">draft · {TEMPLATES[templateIdx].tag}</span>
             </div>
 
-            <div className="overflow-hidden" style={{ borderRadius: 12, border: "1px solid #E0E0E0" }}>
+            <div className="overflow-x-auto" style={{ borderRadius: 12, border: "1px solid #E0E0E0" }}>
+              <div className="min-w-[520px]">
               <div
                 className="grid apple-fine"
                 style={{ gridTemplateColumns: "2.4fr 60px 70px 90px 90px", background: "#F5F5F7", padding: "8px 12px", borderBottom: "1px solid #E0E0E0" }}
@@ -704,6 +705,7 @@ function NewQuoteModal({
                   <div className="apple-caption-strong tnum text-right">£{(l.qty * l.unitPrice).toFixed(2)}</div>
                 </div>
               ))}
+              </div>
             </div>
 
             <div className="mt-4 ml-auto" style={{ maxWidth: 320 }}>
@@ -841,7 +843,7 @@ function NewQuoteModal({
           )}
 
           {/* Site + validity */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <div className="apple-fine mb-1">Site / location</div>
               <input
@@ -867,7 +869,8 @@ function NewQuoteModal({
           </div>
 
           {/* Line items */}
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
+            <div className="min-w-[560px]">
             <div
               className="grid items-center px-4 py-2.5 apple-fine"
               style={{ gridTemplateColumns: "2.4fr 60px 80px 90px 90px 36px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
@@ -924,6 +927,7 @@ function NewQuoteModal({
                 </button>
               </div>
             ))}
+            </div>
           </div>
 
           <button onClick={addLine} className="btn btn-pearl">
@@ -943,7 +947,7 @@ function NewQuoteModal({
 
           {/* Totals */}
           <div className="apple-card p-4">
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               <div>
                 <div className="apple-fine">Goodwill discount £</div>
                 <input
@@ -1025,7 +1029,7 @@ function SiteSurveyPanel({ data }: { data: SiteSurveyData }) {
       </div>
       <p className="apple-fine mb-3" style={{ maxWidth: 760 }}>{data.intro}</p>
 
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
         {data.checklist.map((sec) => (
           <div key={sec.section} className="apple-card p-4">
             <div className="apple-caption-strong mb-2 flex items-center gap-1.5">
@@ -1043,7 +1047,8 @@ function SiteSurveyPanel({ data }: { data: SiteSurveyData }) {
         ))}
       </div>
 
-      <div className="apple-card overflow-hidden">
+      <div className="apple-card overflow-x-auto">
+        <div className="min-w-[560px]">
         <div className="px-4 py-2.5 apple-fine" style={{ background: "#F5F5F7", borderBottom: "1px solid #E0E0E0", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em" }}>
           Recent surveys
         </div>
@@ -1069,6 +1074,7 @@ function SiteSurveyPanel({ data }: { data: SiteSurveyData }) {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
@@ -1089,7 +1095,8 @@ function VariationOrdersPanel({ orders }: { orders: VariationOrder[] }) {
         Anything the survey or build turns up becomes a priced variation — sent to the customer, tracked to a yes or no, never absorbed for free.
       </p>
 
-      <div className="apple-card overflow-hidden">
+      <div className="apple-card overflow-x-auto">
+        <div className="min-w-[640px]">
         {orders.map((o, i) => {
           const status = decided[o.id] ?? o.status;
           return (
@@ -1124,6 +1131,7 @@ function VariationOrdersPanel({ orders }: { orders: VariationOrder[] }) {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

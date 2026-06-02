@@ -12,7 +12,7 @@ export default function SeasonalityPage() {
     return (
       <>
         <PageHeader title="Seasonality" subtitle={company.name} />
-        <div className="px-8 py-7 max-w-[1120px] mx-auto">
+        <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
           <div className="apple-card p-10 text-center">
             <TrendingUp className="w-8 h-8 mx-auto mb-3" style={{ color: "#86868B" }} />
             <div className="apple-tagline">Not enabled for {company.name}</div>
@@ -30,7 +30,7 @@ export default function SeasonalityPage() {
     <>
       <PageHeader title="Seasonality" subtitle="Revenue, costs & VAT across the year" />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
         <div className="mb-7">
           <p className="apple-lead" style={{ color: "#333333" }}>{data.intro}</p>
         </div>

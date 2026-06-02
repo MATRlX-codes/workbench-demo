@@ -21,7 +21,7 @@ const FEATURE_NAV: { feature: FeatureKey; href: string; label: string; icon: typ
   { feature: "projects",          href: "/projects",          label: "Projects",          icon: GanttChartSquare },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
   const pathname = usePathname();
   const { pendingCount } = useApprovals();
   const { company } = useCompany();
@@ -54,6 +54,7 @@ export function Sidebar() {
     return (
       <Link
         href={href}
+        onClick={onNavigate}
         className="relative flex items-center gap-[10px] px-3 py-2 rounded-[10px] transition-colors"
         style={{
           fontFamily: "var(--font-body)",

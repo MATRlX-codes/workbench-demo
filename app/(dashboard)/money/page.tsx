@@ -178,7 +178,7 @@ export default function MoneyPage() {
     <>
       <PageHeader title="Money" subtitle={money.subtitle} />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
         <div className="mb-7">
           <p className="apple-lead" style={{ color: "#333333" }}>
             Cash position, who owes you, and last night&apos;s reconciliation.
@@ -187,7 +187,7 @@ export default function MoneyPage() {
 
         {/* Cash hero */}
         <div className="apple-card p-6 mb-6">
-          <div className="grid items-center gap-6" style={{ gridTemplateColumns: "280px 1fr 180px 180px" }}>
+          <div className="grid items-center gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[280px_1fr_180px_180px]">
             <div>
               <div className="apple-fine">Cash today</div>
               <div className="tnum apple-hero mt-2" style={{ fontSize: 36 }}>{money.cashOnHand}</div>
@@ -295,7 +295,8 @@ export default function MoneyPage() {
         />
 
         {/* Due this week */}
-        <div className="apple-card mb-9 overflow-hidden">
+        <div className="apple-card mb-9 overflow-x-auto">
+          <div className="min-w-[680px]">
           <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#E8F0FB", borderBottom: "1px solid rgba(0,102,204,0.18)" }}>
             <span className="pill pill-info">
               <Calendar className="w-3 h-3" /> Due this week
@@ -330,6 +331,7 @@ export default function MoneyPage() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Quote shelf-life monitor (Tier-1) */}
@@ -553,7 +555,8 @@ function InvoiceSection({
   onChase: (row: InvoiceRow) => void;
 }) {
   return (
-    <div className="apple-card mb-3 overflow-hidden">
+    <div className="apple-card mb-3 overflow-x-auto">
+      <div className="min-w-[680px]">
       <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: headerBg, borderBottom: `1px solid ${headerBorder}` }}>
         <span className={`pill ${pillCls}`}>{icon} {label}</span>
         <span className="apple-caption" style={{ color: subColor }}>{sub}</span>
@@ -592,6 +595,7 @@ function InvoiceSection({
           </div>
         );
       })}
+      </div>
     </div>
   );
 }
@@ -635,7 +639,7 @@ function ReconFullReportModal({
 
       {tab === "summary" && (
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { label: "Transactions",       value: String(txnTotal),  tone: "neutral" },
               { label: "Matched automatically", value: `${matchedBase + (txnTotal - matchedBase - unresolved)} · ${reconPct}%`, tone: "ok" },
@@ -812,7 +816,8 @@ function StaleQuotesSection({ quotes, signoff }: { quotes: StaleQuote[]; signoff
         <h3 className="section-title">Quote shelf-life</h3>
         <span className="apple-fine">Open quotes ageing past their valid-for window · prices may have moved</span>
       </div>
-      <div className="apple-card overflow-hidden">
+      <div className="apple-card overflow-x-auto">
+        <div className="min-w-[680px]">
         <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#F5EAD6", borderBottom: "1px solid #ecdcbb" }}>
           <span className="pill pill-warn"><Clock className="w-3 h-3" /> Ageing</span>
           <span className="apple-caption" style={{ color: "#8A5A12" }}>{quotes.length} quotes · nudge before they go cold</span>
@@ -848,6 +853,7 @@ function StaleQuotesSection({ quotes, signoff }: { quotes: StaleQuote[]; signoff
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

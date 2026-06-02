@@ -75,7 +75,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
+    <div className="px-4 sm:px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
       <PageHeader title="Settings" subtitle="Configure how Workbench operates for your business" />
 
       {/* Tab bar */}
@@ -102,7 +102,7 @@ export default function SettingsPage() {
             <Field label="Business name">
               <input value={businessName} onChange={(e) => setBusinessName(e.target.value)} className={inputCls} />
             </Field>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Country">
                 <select value={country} onChange={(e) => setCountry(e.target.value)} className={inputCls}>
                   <option value="GB">United Kingdom (GB)</option>

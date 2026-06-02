@@ -53,7 +53,7 @@ export default function CompetencyPage() {
     return (
       <>
         <PageHeader title="Competency" subtitle={company.name} />
-        <div className="px-8 py-7 max-w-[1120px] mx-auto">
+        <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
           <div className="apple-card p-10 text-center">
             <Award className="w-8 h-8 mx-auto mb-3" style={{ color: "#86868B" }} />
             <div className="apple-tagline">Not enabled for {company.name}</div>
@@ -80,46 +80,48 @@ export default function CompetencyPage() {
     <>
       <PageHeader title="Competency & renewals" subtitle={`${data.engineers.length} engineers · ${expiringCount} qualifications need attention`} />
 
-      <div className="px-8 py-7 max-w-[1180px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1180px] mx-auto">
         <div className="mb-7">
           <p className="apple-lead" style={{ color: "#333333" }}>{data.intro}</p>
         </div>
 
         {/* Competency matrix */}
         <h3 className="section-title mb-3">Competency matrix</h3>
-        <div className="apple-card overflow-hidden mb-9">
-          <div
-            className="grid items-center apple-fine"
-            style={{
-              gridTemplateColumns: `1.4fr repeat(${data.certColumns.length}, 1fr)`,
-              padding: "10px 16px",
-              background: "#F5F5F7",
-              borderBottom: "1px solid #E0E0E0",
-            }}
-          >
-            <div>Engineer</div>
-            {data.certColumns.map((c) => <div key={c}>{c}</div>)}
-          </div>
-          {data.engineers.map((eng, i) => (
+        <div className="apple-card overflow-x-auto mb-9">
+          <div className="min-w-[640px]">
             <div
-              key={eng.name}
-              className="grid items-center"
+              className="grid items-center apple-fine"
               style={{
                 gridTemplateColumns: `1.4fr repeat(${data.certColumns.length}, 1fr)`,
-                padding: "13px 16px",
-                borderBottom: i < data.engineers.length - 1 ? "1px solid #F0F0F0" : "none",
+                padding: "10px 16px",
+                background: "#F5F5F7",
+                borderBottom: "1px solid #E0E0E0",
               }}
             >
-              <div>
-                <div className="apple-caption-strong">{eng.name}</div>
-                <div className="apple-fine">{eng.role}</div>
-              </div>
-              {data.certColumns.map((col) => {
-                const q = eng.quals.find((x) => x.name === col);
-                return <div key={col}>{q ? qualCell(q.status, q.expires) : <span className="apple-fine">—</span>}</div>;
-              })}
+              <div>Engineer</div>
+              {data.certColumns.map((c) => <div key={c}>{c}</div>)}
             </div>
-          ))}
+            {data.engineers.map((eng, i) => (
+              <div
+                key={eng.name}
+                className="grid items-center"
+                style={{
+                  gridTemplateColumns: `1.4fr repeat(${data.certColumns.length}, 1fr)`,
+                  padding: "13px 16px",
+                  borderBottom: i < data.engineers.length - 1 ? "1px solid #F0F0F0" : "none",
+                }}
+              >
+                <div>
+                  <div className="apple-caption-strong">{eng.name}</div>
+                  <div className="apple-fine">{eng.role}</div>
+                </div>
+                {data.certColumns.map((col) => {
+                  const q = eng.quals.find((x) => x.name === col);
+                  return <div key={col}>{q ? qualCell(q.status, q.expires) : <span className="apple-fine">—</span>}</div>;
+                })}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Legend */}
@@ -144,45 +146,47 @@ export default function CompetencyPage() {
         </div>
         <p className="apple-fine mb-3">{data.eicrIntro}</p>
 
-        <div className="apple-card overflow-hidden">
-          <div
-            className="grid items-center apple-fine"
-            style={{ gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr", padding: "10px 16px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
-          >
-            <div>Property</div><div>Landlord</div><div>Expires</div><div>Stage</div><div className="text-right">Action</div>
+        <div className="apple-card overflow-x-auto">
+          <div className="min-w-[640px]">
+            <div
+              className="grid items-center apple-fine"
+              style={{ gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr", padding: "10px 16px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
+            >
+              <div>Property</div><div>Landlord</div><div>Expires</div><div>Stage</div><div className="text-right">Action</div>
+            </div>
+            {data.eicrJobs.map((j, i) => {
+              const done = renewing.has(j.property);
+              return (
+                <div
+                  key={j.property}
+                  className="grid items-center"
+                  style={{
+                    gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr",
+                    padding: "13px 16px",
+                    fontSize: 13,
+                    borderBottom: i < data.eicrJobs.length - 1 ? "1px solid #F0F0F0" : "none",
+                  }}
+                >
+                  <div className="apple-caption-strong">{j.property}</div>
+                  <div className="apple-caption">{j.landlord}</div>
+                  <div>
+                    <div className="apple-caption">{j.expires}</div>
+                    <div className="apple-fine">{j.daysOut < 0 ? `${Math.abs(j.daysOut)}d overdue` : `in ${j.daysOut}d`}</div>
+                  </div>
+                  <div><span className={`pill ${STAGE_PILL[j.stage]}`}>{j.stage}</span></div>
+                  <div className="flex justify-end">
+                    {done ? (
+                      <span className="pill pill-ok"><Check className="w-3 h-3" /> Nudged · {j.channel}</span>
+                    ) : (
+                      <button onClick={() => setRenewing((p) => new Set([...p, j.property]))} className="btn btn-secondary btn-sm">
+                        <Send className="w-3.5 h-3.5" /> Nudge
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {data.eicrJobs.map((j, i) => {
-            const done = renewing.has(j.property);
-            return (
-              <div
-                key={j.property}
-                className="grid items-center"
-                style={{
-                  gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr",
-                  padding: "13px 16px",
-                  fontSize: 13,
-                  borderBottom: i < data.eicrJobs.length - 1 ? "1px solid #F0F0F0" : "none",
-                }}
-              >
-                <div className="apple-caption-strong">{j.property}</div>
-                <div className="apple-caption">{j.landlord}</div>
-                <div>
-                  <div className="apple-caption">{j.expires}</div>
-                  <div className="apple-fine">{j.daysOut < 0 ? `${Math.abs(j.daysOut)}d overdue` : `in ${j.daysOut}d`}</div>
-                </div>
-                <div><span className={`pill ${STAGE_PILL[j.stage]}`}>{j.stage}</span></div>
-                <div className="flex justify-end">
-                  {done ? (
-                    <span className="pill pill-ok"><Check className="w-3 h-3" /> Nudged · {j.channel}</span>
-                  ) : (
-                    <button onClick={() => setRenewing((p) => new Set([...p, j.property]))} className="btn btn-secondary btn-sm">
-                      <Send className="w-3.5 h-3.5" /> Nudge
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
     </>

@@ -44,7 +44,7 @@ export default function CalendarPage() {
     <>
       <PageHeader title={cal.title} subtitle={`Week of ${cal.weekRange} · ${totalWeek} jobs`} />
 
-      <div className="px-8 py-7 max-w-[1320px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1320px] mx-auto">
 
         {/* Weather-aware rescheduling (roofing) */}
         {company.weather && <WeatherSection data={company.weather} />}
@@ -76,7 +76,8 @@ export default function CalendarPage() {
         </div>
 
         {view === "week" ? (
-          <div className="grid grid-cols-6 gap-3">
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="grid grid-cols-6 gap-3 min-w-[720px]">
             {DAYS.map((day) => (
               <div key={day} className="min-w-0">
                 <div
@@ -110,6 +111,7 @@ export default function CalendarPage() {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         ) : (
           <div>
@@ -236,7 +238,7 @@ function JobDetailModal({
             <div className="muted-text mt-0.5">{job.detail}</div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <Fact icon={<CalendarClock className="w-4 h-4" />} label="When" value={`${dayLabel} · ${job.time}`} />
             <Fact icon={<Clock className="w-4 h-4" />} label="Duration" value={`${job.durationMins} min`} />
             <Fact icon={<Users className="w-4 h-4" />} label="Team" value={
@@ -297,7 +299,8 @@ function WeatherSection({ data }: { data: WeatherData }) {
         </div>
         <div className="apple-fine mb-4">{data.intro}</div>
 
-        <div className="grid gap-2.5" style={{ gridTemplateColumns: `repeat(${data.forecast.length}, 1fr)` }}>
+        <div className="overflow-x-auto -mx-1 px-1">
+        <div className="grid gap-2.5 min-w-[560px]" style={{ gridTemplateColumns: `repeat(${data.forecast.length}, minmax(0, 1fr))` }}>
           {data.forecast.map((d) => (
             <div
               key={d.date}
@@ -324,10 +327,12 @@ function WeatherSection({ data }: { data: WeatherData }) {
             </div>
           ))}
         </div>
+        </div>
       </div>
 
       {/* Jobs affected */}
-      <div className="apple-card overflow-hidden">
+      <div className="apple-card overflow-x-auto">
+        <div className="min-w-[640px]">
         <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#F5EAD6", borderBottom: "1px solid #ecdcbb" }}>
           <span className="pill pill-warn"><CalendarClock className="w-3 h-3" /> Weather-sensitive jobs</span>
           <span className="apple-caption" style={{ color: "#8A5A12" }}>{toMove.length} need moving · {data.jobs.length - toMove.length} fine as scheduled</span>
@@ -364,6 +369,7 @@ function WeatherSection({ data }: { data: WeatherData }) {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

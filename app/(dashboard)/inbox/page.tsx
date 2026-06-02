@@ -128,7 +128,7 @@ export default function InboxPage() {
     <>
       <PageHeader title="Inbox" subtitle={`${activeItems.length} threads · ${unread.length} unread`} />
 
-      <div className="px-8 py-7 max-w-[1320px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1320px] mx-auto">
         <div className="mb-5">
           <p className="body-text">
             One thread per customer or supplier — email, web, social and voicemail in one place. Claude
@@ -137,7 +137,7 @@ export default function InboxPage() {
         </div>
 
         <div className="v3-card overflow-hidden" style={{ height: "calc(100vh - 230px)", minHeight: 600 }}>
-          <div className="grid h-full" style={{ gridTemplateColumns: "348px 1fr" }}>
+          <div className="grid h-full grid-cols-1 lg:grid-cols-[348px_1fr]">
 
             {/* Left pane */}
             <div className="flex flex-col" style={{ borderRight: "1px solid #E7E5DE" }}>

@@ -61,7 +61,7 @@ export default function CompliancePage() {
     <>
       <PageHeader title="Compliance" subtitle={c.subtitle} />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
         <div className="mb-7">
           <p className="body-text">{c.intro}</p>
         </div>
@@ -114,7 +114,8 @@ export default function CompliancePage() {
         </div>
 
         {/* Ordered list of the rest */}
-        <div className="v3-card mb-9">
+        <div className="v3-card mb-9 overflow-x-auto">
+          <div className="min-w-[640px]">
           {c.deadlines.map((d, i) => {
             const completed = isDone(d.key);
             return (
@@ -153,6 +154,7 @@ export default function CompliancePage() {
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* RoPA / connectors */}
@@ -162,7 +164,8 @@ export default function CompliancePage() {
             <Download className="w-3.5 h-3.5" /> Export GDPR audit pack
           </button>
         </div>
-        <div className="v3-card mb-9 overflow-hidden">
+        <div className="v3-card mb-9 overflow-x-auto">
+          <div className="min-w-[720px]">
           <div
             className="grid"
             style={{
@@ -202,11 +205,13 @@ export default function CompliancePage() {
               <div className="flex justify-end"><span className={`pill ${cn.statusCls}`}>{cn.status}</span></div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Audit log */}
         <h3 className="section-title mb-3">Audit log · last 24 hours</h3>
-        <div className="v3-card overflow-hidden">
+        <div className="v3-card overflow-x-auto">
+          <div className="min-w-[640px]">
           {c.audit.map((row, i) => (
             <div
               key={i}
@@ -227,6 +232,7 @@ export default function CompliancePage() {
               <div className="flex justify-end"><span className={`pill ${row.pillCls}`}>{row.pillTxt}</span></div>
             </div>
           ))}
+          </div>
         </div>
         <p className="faint-text mt-3">
           Every signed action is hash-chained and exportable. If a record is altered, the chain breaks.

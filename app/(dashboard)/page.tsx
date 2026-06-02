@@ -65,7 +65,7 @@ export default function TodayPage() {
     <>
       <PageHeader title="Today" subtitle={today.date} />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
 
         {/* Greeting */}
         <div className="mb-8">
@@ -76,7 +76,7 @@ export default function TodayPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-9">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-9">
           {today.stats.map(({ label, value, sub, delta, accent }) => (
             <div
               key={label}
@@ -111,7 +111,8 @@ export default function TodayPage() {
           <h3 className="section-title">Today&apos;s diary</h3>
           <span className="apple-fine">{today.diarySubtitle}</span>
         </div>
-        <div className="apple-card mb-9 overflow-hidden">
+        <div className="apple-card mb-9 overflow-x-auto">
+          <div className="min-w-[640px]">
           {diary.map((entry, i) => (
             <div
               key={entry.id}
@@ -142,6 +143,7 @@ export default function TodayPage() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Risk card */}
@@ -307,7 +309,8 @@ function ChaseListSection() {
           </div>
         </div>
       ) : (
-        <div className="apple-card overflow-hidden">
+        <div className="apple-card overflow-x-auto">
+          <div className="min-w-[720px]">
           {entries.map((e, i) => (
             <div
               key={e.id}
@@ -356,6 +359,7 @@ function ChaseListSection() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
     </div>

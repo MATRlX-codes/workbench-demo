@@ -73,7 +73,7 @@ export default function ProductsPage() {
     <>
       <PageHeader title="Products & stock" subtitle={`${totalSkus} ${company.products.subtitleSuffix} · ${lowStockCount} need restocking`} />
 
-      <div className="px-8 py-7 max-w-[1280px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1280px] mx-auto">
 
         {/* Top callout — low stock */}
         {lowStockCount > 0 && (
@@ -128,7 +128,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Product grid */}
-        <div className="grid grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
           {filtered.map((p) => {
             const state = stockState(p);
             const free = p.onHand - p.reserved;
@@ -147,7 +147,7 @@ export default function ProductsPage() {
                   </div>
                   <div className="h3" style={{ fontSize: 14 }}>{p.name}</div>
                   <div className="faint-text tnum">{p.sku} · {p.unit}</div>
-                  <div className="grid grid-cols-3 gap-2 mt-3 text-[12px]">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3 text-[12px]">
                     <div>
                       <div className="faint-text">On hand</div>
                       <div className="tnum" style={{ fontWeight: 600, color: "#191C21" }}>{p.onHand}</div>
@@ -196,7 +196,7 @@ export default function ProductsPage() {
             <div className="rounded-[8px] h-[180px] overflow-hidden relative" style={{ background: selected.thumbBg }}>
               <ProductImage sku={selected.sku} category={selected.category} />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { label: "SKU",          value: selected.sku },
                 { label: "Category",     value: selected.category },
@@ -211,7 +211,7 @@ export default function ProductsPage() {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="v3-card p-4">
                 <div className="muted-text">Trade price</div>
                 <div className="tnum mt-1" style={{ fontSize: 20, fontWeight: 600 }}>{selected.trade}</div>
@@ -223,7 +223,7 @@ export default function ProductsPage() {
             </div>
             <div className="v3-card p-4">
               <div className="section-title mb-2">Stock movement (last 30 days)</div>
-              <div className="grid grid-cols-3 gap-3 text-[13px]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[13px]">
                 <div><div className="faint-text">In</div><div className="tnum" style={{ fontWeight: 600, color: "#2E844A" }}>+{Math.round(selected.onHand * 0.6 + 8)}</div></div>
                 <div><div className="faint-text">Out</div><div className="tnum" style={{ fontWeight: 600, color: "#9A2D24" }}>−{Math.round(selected.onHand * 0.4 + 4)}</div></div>
                 <div><div className="faint-text">Sold £</div><div className="tnum" style={{ fontWeight: 600 }}>£{(Math.round(selected.onHand * 14)).toLocaleString()}</div></div>

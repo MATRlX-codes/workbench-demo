@@ -25,7 +25,7 @@ export default function ServiceContractsPage() {
     return (
       <>
         <PageHeader title="Service contracts" subtitle={company.name} />
-        <div className="px-8 py-7 max-w-[1120px] mx-auto">
+        <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
           <div className="apple-card p-10 text-center">
             <Repeat className="w-8 h-8 mx-auto mb-3" style={{ color: "#86868B" }} />
             <div className="apple-tagline">Not enabled for {company.name}</div>
@@ -52,13 +52,13 @@ export default function ServiceContractsPage() {
     <>
       <PageHeader title="Service contracts" subtitle={`${data.summaryActive} active plans · ${data.summaryDue} due`} />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
         <div className="mb-7">
           <p className="apple-lead" style={{ color: "#333333" }}>{data.intro}</p>
         </div>
 
         {/* Summary KPIs */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
             { label: "Recurring income", value: data.summaryMrr, sub: "per month · direct debit" },
             { label: "Active plans",     value: String(data.summaryActive), sub: "Gold & Silver" },
@@ -107,56 +107,58 @@ export default function ServiceContractsPage() {
 
         {/* Plan table */}
         <h3 className="section-title mb-3">All plans</h3>
-        <div className="apple-card overflow-hidden">
-          <div
-            className="grid items-center px-4 py-2.5 apple-fine"
-            style={{ gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
-          >
-            <div>Customer</div><div>Asset</div><div>Plan</div><div className="text-right">MRR</div><div>Next service</div><div className="text-right">Status</div>
-          </div>
-          {data.plans.map((p, i) => {
-            const pill = STATUS_PILL[p.status];
-            const isScheduled = scheduled.has(p.customer);
-            const needs = p.status === "due" || p.status === "overdue" || p.status === "lapsed";
-            return (
-              <div
-                key={p.id}
-                className="grid items-center"
-                style={{
-                  gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr",
-                  padding: "13px 16px",
-                  fontSize: 13,
-                  borderBottom: i < data.plans.length - 1 ? "1px solid #F0F0F0" : "none",
-                }}
-              >
-                <div>
-                  <div className="apple-caption-strong">{p.customer}</div>
-                  <div className="apple-fine">{p.address}</div>
-                </div>
-                <div className="apple-caption">{p.asset}</div>
-                <div><span className="pill pill-soft">{p.plan}</span></div>
-                <div className="apple-caption-strong tnum text-right">{p.monthly}</div>
-                <div>
-                  <div className="apple-caption">{p.nextService}</div>
-                  <div className="apple-fine">
-                    {p.daysToService === 0 ? "today"
-                      : p.daysToService < 0 ? `${Math.abs(p.daysToService)}d overdue`
-                      : `in ${p.daysToService}d`}
+        <div className="apple-card overflow-x-auto">
+          <div className="min-w-[720px]">
+            <div
+              className="grid items-center px-4 py-2.5 apple-fine"
+              style={{ gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
+            >
+              <div>Customer</div><div>Asset</div><div>Plan</div><div className="text-right">MRR</div><div>Next service</div><div className="text-right">Status</div>
+            </div>
+            {data.plans.map((p, i) => {
+              const pill = STATUS_PILL[p.status];
+              const isScheduled = scheduled.has(p.customer);
+              const needs = p.status === "due" || p.status === "overdue" || p.status === "lapsed";
+              return (
+                <div
+                  key={p.id}
+                  className="grid items-center"
+                  style={{
+                    gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr",
+                    padding: "13px 16px",
+                    fontSize: 13,
+                    borderBottom: i < data.plans.length - 1 ? "1px solid #F0F0F0" : "none",
+                  }}
+                >
+                  <div>
+                    <div className="apple-caption-strong">{p.customer}</div>
+                    <div className="apple-fine">{p.address}</div>
+                  </div>
+                  <div className="apple-caption">{p.asset}</div>
+                  <div><span className="pill pill-soft">{p.plan}</span></div>
+                  <div className="apple-caption-strong tnum text-right">{p.monthly}</div>
+                  <div>
+                    <div className="apple-caption">{p.nextService}</div>
+                    <div className="apple-fine">
+                      {p.daysToService === 0 ? "today"
+                        : p.daysToService < 0 ? `${Math.abs(p.daysToService)}d overdue`
+                        : `in ${p.daysToService}d`}
+                    </div>
+                  </div>
+                  <div className="flex justify-end items-center gap-2">
+                    <span className={`pill ${pill.cls}`}>{pill.label}</span>
+                    {needs && (
+                      isScheduled ? (
+                        <span className="pill pill-ok"><Check className="w-3 h-3" /> Booked</span>
+                      ) : (
+                        <button onClick={() => scheduleOne(p.customer)} className="btn btn-secondary btn-sm">Book</button>
+                      )
+                    )}
                   </div>
                 </div>
-                <div className="flex justify-end items-center gap-2">
-                  <span className={`pill ${pill.cls}`}>{pill.label}</span>
-                  {needs && (
-                    isScheduled ? (
-                      <span className="pill pill-ok"><Check className="w-3 h-3" /> Booked</span>
-                    ) : (
-                      <button onClick={() => scheduleOne(p.customer)} className="btn btn-secondary btn-sm">Book</button>
-                    )
-                  )}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <p className="apple-fine mt-3 flex items-center gap-3">

@@ -190,7 +190,7 @@ export default function SchedulesPage() {
   const disabled = schedules.filter((s) => !s.enabled);
 
   return (
-    <div className="px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
+    <div className="px-4 sm:px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
       <PageHeader title="Schedules" subtitle="Automated workflows that run on a timer — all actions still require your approval" />
 
       {enabled.length > 0 && (

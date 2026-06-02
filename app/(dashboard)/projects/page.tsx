@@ -26,7 +26,7 @@ export default function ProjectsPage() {
     return (
       <>
         <PageHeader title="Projects" subtitle={company.name} />
-        <div className="px-8 py-7 max-w-[1120px] mx-auto">
+        <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
           <div className="apple-card p-10 text-center">
             <GanttChartSquare className="w-8 h-8 mx-auto mb-3" style={{ color: "#86868B" }} />
             <div className="apple-tagline">Not enabled for {company.name}</div>
@@ -45,7 +45,7 @@ export default function ProjectsPage() {
     <>
       <PageHeader title="Projects" subtitle={`${data.projects.length} jobs · multi-trade scheduling`} />
 
-      <div className="px-8 py-7 max-w-[1280px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1280px] mx-auto">
         <div className="mb-6">
           <p className="apple-lead" style={{ color: "#333333" }}>{data.intro}</p>
         </div>
@@ -75,7 +75,7 @@ export default function ProjectsPage() {
           ))}
         </div>
 
-        <div className="grid gap-5" style={{ gridTemplateColumns: "1fr 360px" }}>
+        <div className="grid gap-5 grid-cols-1 lg:grid-cols-[1fr_360px]">
           {/* Gantt + deliveries */}
           <div className="min-w-0 space-y-5">
             {/* Gantt */}
@@ -86,48 +86,52 @@ export default function ProjectsPage() {
               </div>
               <div className="apple-fine mb-4">{project.customer} · {project.progressPct}% complete</div>
 
-              {/* Day header */}
-              <div
-                className="grid items-center mb-2"
-                style={{ gridTemplateColumns: `190px repeat(${cols}, 1fr)`, gap: 4 }}
-              >
-                <div />
-                {project.dayLabels.map((d) => (
-                  <div key={d} className="apple-fine text-center" style={{ fontSize: 10.5 }}>{d}</div>
-                ))}
-              </div>
-
-              {/* Trade rows */}
-              <div className="space-y-1.5">
-                {project.trades.map((t, idx) => (
+              <div className="overflow-x-auto">
+                <div className="min-w-[640px]">
+                  {/* Day header */}
                   <div
-                    key={idx}
-                    className="grid items-center"
+                    className="grid items-center mb-2"
                     style={{ gridTemplateColumns: `190px repeat(${cols}, 1fr)`, gap: 4 }}
                   >
-                    <div className="apple-fine pr-2 truncate" title={`${t.trade} · ${t.team}`}>
-                      <span style={{ color: "#191C21", fontWeight: 500 }}>{t.trade}</span>
-                      <span className="block" style={{ fontSize: 10 }}>{t.team}</span>
-                    </div>
-                    {/* Bar lane: render a positioned bar inside a sub-grid */}
-                    <div className="relative" style={{ gridColumn: `2 / ${cols + 2}`, height: 30 }}>
-                      <div className="grid h-full" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 4 }}>
-                        {Array.from({ length: cols }).map((_, c) => <div key={c} className="rounded-[4px]" style={{ background: "#F2F1ED" }} />)}
-                      </div>
-                      <div
-                        className="absolute top-0 h-full rounded-[6px] flex items-center px-2"
-                        style={{
-                          left: `calc(${(t.startDay / cols) * 100}% + 2px)`,
-                          width: `calc(${(t.span / cols) * 100}% - 4px)`,
-                          background: t.status === "done" ? `${t.color}88` : t.color,
-                          opacity: t.status === "upcoming" ? 0.5 : 1,
-                        }}
-                      >
-                        {t.status === "done" && <Check className="w-3 h-3 text-white shrink-0" />}
-                      </div>
-                    </div>
+                    <div />
+                    {project.dayLabels.map((d) => (
+                      <div key={d} className="apple-fine text-center" style={{ fontSize: 10.5 }}>{d}</div>
+                    ))}
                   </div>
-                ))}
+
+                  {/* Trade rows */}
+                  <div className="space-y-1.5">
+                    {project.trades.map((t, idx) => (
+                      <div
+                        key={idx}
+                        className="grid items-center"
+                        style={{ gridTemplateColumns: `190px repeat(${cols}, 1fr)`, gap: 4 }}
+                      >
+                        <div className="apple-fine pr-2 truncate" title={`${t.trade} · ${t.team}`}>
+                          <span style={{ color: "#191C21", fontWeight: 500 }}>{t.trade}</span>
+                          <span className="block" style={{ fontSize: 10 }}>{t.team}</span>
+                        </div>
+                        {/* Bar lane: render a positioned bar inside a sub-grid */}
+                        <div className="relative" style={{ gridColumn: `2 / ${cols + 2}`, height: 30 }}>
+                          <div className="grid h-full" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 4 }}>
+                            {Array.from({ length: cols }).map((_, c) => <div key={c} className="rounded-[4px]" style={{ background: "#F2F1ED" }} />)}
+                          </div>
+                          <div
+                            className="absolute top-0 h-full rounded-[6px] flex items-center px-2"
+                            style={{
+                              left: `calc(${(t.startDay / cols) * 100}% + 2px)`,
+                              width: `calc(${(t.span / cols) * 100}% - 4px)`,
+                              background: t.status === "done" ? `${t.color}88` : t.color,
+                              opacity: t.status === "upcoming" ? 0.5 : 1,
+                            }}
+                          >
+                            {t.status === "done" && <Check className="w-3 h-3 text-white shrink-0" />}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
