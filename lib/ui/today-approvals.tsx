@@ -99,18 +99,18 @@ function ApprovalCard({
   const Icon = ap.approveIcon === "send" ? Send : Check;
   return (
     <div className="apple-card p-5">
-      <div className={`flex items-start justify-between gap-6 ${ap.lineItems ? "mb-3" : ""}`}>
+      <div className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 ${ap.lineItems ? "mb-3" : ""}`}>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center flex-wrap gap-2 mb-2">
             <span className="pill pill-ai">
               <Sparkles className="w-3 h-3" /> {ap.workflowTag}
             </span>
             <span className="apple-fine">{ap.meta}</span>
           </div>
-          <div className="apple-tagline" style={{ fontSize: 17 }}>{ap.headline}</div>
-          <div className="apple-body mt-1" style={{ color: "#333333" }}>{ap.detail}</div>
+          <div className="apple-tagline resp-wrap" style={{ fontSize: 17 }}>{ap.headline}</div>
+          <div className="apple-body mt-1 resp-wrap" style={{ color: "#333333" }}>{ap.detail}</div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
           <button onClick={onReject} className="btn btn-ghost btn-sm" style={{ color: "#9A2D24" }} title="Reject">
             <X className="w-3.5 h-3.5" />
           </button>
@@ -149,14 +149,14 @@ function LineItemRow({
   if (isPO) {
     return (
       <div
-        className="grid items-center py-[10px] cursor-pointer"
+        className="grid items-center py-[10px] cursor-pointer resp-row"
         style={{
           gridTemplateColumns: "2fr 0.9fr 0.9fr 0.8fr",
           borderTop: isFirst ? "none" : "1px solid #F0F0F0",
         }}
         onClick={onClick}
       >
-        <div className="apple-caption-strong">{li.primary}</div>
+        <div className="apple-caption-strong resp-wrap">{li.primary}</div>
         <div className="apple-fine">{li.stockNote}</div>
         <div className="apple-fine text-right">{li.detail}</div>
         <div className="apple-caption-strong tnum text-right">{li.value}</div>
@@ -165,18 +165,18 @@ function LineItemRow({
   }
   return (
     <div
-      className="grid items-center py-[10px] cursor-pointer hover:bg-[rgba(0,0,0,0.02)] -mx-2 px-2 rounded-[6px] transition-colors"
+      className="grid items-center py-[10px] cursor-pointer hover:bg-[rgba(0,0,0,0.02)] -mx-2 px-2 rounded-[6px] transition-colors resp-row"
       style={{
         gridTemplateColumns: "1.5fr 1.7fr 0.8fr 0.8fr",
         borderTop: isFirst ? "none" : "1px solid #F0F0F0",
       }}
       onClick={onClick}
     >
-      <div className="flex items-center gap-1.5">
-        <span className="apple-caption-strong">{li.primary}</span>
+      <div className="flex items-center gap-1.5 flex-wrap">
+        <span className="apple-caption-strong resp-wrap">{li.primary}</span>
         {li.tag && <span className="pill pill-line">{li.tag}</span>}
       </div>
-      <div className="apple-fine">{li.detail}</div>
+      <div className="apple-fine resp-wrap">{li.detail}</div>
       <div className="apple-caption-strong tnum">{li.value}</div>
       <div className="apple-fine text-right">{li.caption}</div>
     </div>

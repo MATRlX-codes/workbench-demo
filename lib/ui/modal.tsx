@@ -72,8 +72,8 @@ export function Modal({ open, onClose, title, children, width = "560px" }: Modal
 export function ModalActions({ children }: { children: ReactNode }) {
   return (
     <div
-      className="flex items-center justify-end gap-2 px-6 shrink-0"
-      style={{ height: 64, borderTop: "1px solid #F0F0F0", background: "#FAFAFC" }}
+      className="flex items-center justify-end gap-2 px-6 py-3 shrink-0 flex-wrap"
+      style={{ minHeight: 64, borderTop: "1px solid #F0F0F0", background: "#FAFAFC" }}
     >
       {children}
     </div>

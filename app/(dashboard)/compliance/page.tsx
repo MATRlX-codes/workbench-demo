@@ -71,9 +71,9 @@ export default function CompliancePage() {
           <div className="grid" style={{ gridTemplateColumns: "5px 1fr" }}>
             <div style={{ background: "#0066CC" }} />
             <div className="p-5">
-              <div className="flex items-start justify-between gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center flex-wrap gap-2 mb-2">
                     <span className="pill pill-warn">{c.hero.pillLabel}</span>
                     <span className="pill pill-ai">
                       <Flame className="w-3 h-3" /> {c.hero.urgentLabel}
@@ -114,14 +114,14 @@ export default function CompliancePage() {
         </div>
 
         {/* Ordered list of the rest */}
-        <div className="v3-card mb-9 overflow-x-auto">
-          <div className="min-w-[640px]">
+        <div className="v3-card mb-9 resp-table">
+          <div className="min-w-[640px] resp-min">
           {c.deadlines.map((d, i) => {
             const completed = isDone(d.key);
             return (
               <div
                 key={d.key}
-                className="grid items-center"
+                className="grid items-center resp-row"
                 style={{
                   gridTemplateColumns: "14px 1.6fr 1.5fr 130px 160px",
                   padding: "12px 15px",
@@ -131,15 +131,15 @@ export default function CompliancePage() {
               >
                 <div><span className="dot" style={{ background: d.dot }} /></div>
                 <div>
-                  <div style={{ fontWeight: 600, color: "#191C21" }}>{d.title}</div>
-                  <div className="muted-text">{d.desc}</div>
+                  <div className="resp-wrap" style={{ fontWeight: 600, color: "#191C21" }}>{d.title}</div>
+                  <div className="muted-text resp-wrap">{d.desc}</div>
                 </div>
-                <div className="muted-text">{d.progress}</div>
+                <div className="muted-text resp-wrap">{d.progress}</div>
                 <div>
                   <span className={`pill ${d.pillCls}`}>{d.pillTxt}</span>
                   <div className="faint-text mt-0.5">{d.when}</div>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end resp-actions">
                   {completed ? (
                     <span className="pill pill-ok"><Check className="w-3 h-3" /> Done</span>
                   ) : (
@@ -164,10 +164,10 @@ export default function CompliancePage() {
             <Download className="w-3.5 h-3.5" /> Export GDPR audit pack
           </button>
         </div>
-        <div className="v3-card mb-9 overflow-x-auto">
-          <div className="min-w-[720px]">
+        <div className="v3-card mb-9 resp-table">
+          <div className="min-w-[720px] resp-min">
           <div
-            className="grid"
+            className="grid resp-head"
             style={{
               gridTemplateColumns: "1.3fr 1.1fr 1.5fr 0.9fr 0.8fr",
               padding: "10px 15px",
@@ -185,7 +185,7 @@ export default function CompliancePage() {
           {c.connectors.map((cn, i) => (
             <div
               key={cn.name}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.3fr 1.1fr 1.5fr 0.9fr 0.8fr",
                 padding: "12px 15px",
@@ -199,10 +199,10 @@ export default function CompliancePage() {
                 </div>
                 <span style={{ fontWeight: 500 }}>{cn.name}</span>
               </div>
-              <div>{cn.by}</div>
-              <div className="muted-text">{cn.scopes}</div>
+              <div className="resp-wrap">{cn.by}</div>
+              <div className="muted-text resp-wrap">{cn.scopes}</div>
               <div className="muted-text">{cn.last}</div>
-              <div className="flex justify-end"><span className={`pill ${cn.statusCls}`}>{cn.status}</span></div>
+              <div className="flex justify-end resp-actions"><span className={`pill ${cn.statusCls}`}>{cn.status}</span></div>
             </div>
           ))}
           </div>
@@ -210,12 +210,12 @@ export default function CompliancePage() {
 
         {/* Audit log */}
         <h3 className="section-title mb-3">Audit log · last 24 hours</h3>
-        <div className="v3-card overflow-x-auto">
-          <div className="min-w-[640px]">
+        <div className="v3-card resp-table">
+          <div className="min-w-[640px] resp-min">
           {c.audit.map((row, i) => (
             <div
               key={i}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "120px 1fr 170px 90px",
                 padding: "12px 15px",
@@ -224,12 +224,12 @@ export default function CompliancePage() {
               }}
             >
               <div className="muted-text tnum">{row.time}</div>
-              <div style={{ color: "#191C21" }}>
+              <div className="resp-wrap" style={{ color: "#191C21" }}>
                 <span style={{ fontWeight: 500 }}>{row.event}</span> {row.detail}
                 {row.ref && <span className="muted-text tnum ml-1">{row.ref}</span>}
               </div>
-              <div className="muted-text">{row.actor}</div>
-              <div className="flex justify-end"><span className={`pill ${row.pillCls}`}>{row.pillTxt}</span></div>
+              <div className="muted-text resp-wrap">{row.actor}</div>
+              <div className="flex justify-end resp-actions"><span className={`pill ${row.pillCls}`}>{row.pillTxt}</span></div>
             </div>
           ))}
           </div>

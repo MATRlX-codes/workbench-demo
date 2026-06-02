@@ -7,6 +7,7 @@ import {
   RefreshCw, X, Link2,
 } from "lucide-react";
 import { PageHeader } from "@/lib/ui/page-header";
+import { Modal } from "@/lib/ui/modal";
 import { useCompany } from "@/lib/mock/company-context";
 import type { InboxItem } from "@/lib/mock/companies/types";
 
@@ -42,6 +43,7 @@ export default function InboxPage() {
   const [composeText, setComposeText] = useState("");
   const [sendingId, setSendingId] = useState<string | null>(null);
   const [draftingId, setDraftingId] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const activeItems = items.filter((it) => it.status === "active");
   const unread  = activeItems.filter((it) => it.unread && !read.has(it.id));
@@ -63,6 +65,7 @@ export default function InboxPage() {
     setRead((prev) => new Set([...prev, id]));
     setEditingDraftId(null);
     setComposingId(null);
+    setMobileOpen(true);
   }
   function openEdit(id: string, current: string) {
     setEditingDraftId(id); setEditText(current); setComposingId(null);
@@ -123,6 +126,130 @@ export default function InboxPage() {
   const isComposing = composingId === selectedId;
   const isSending   = sendingId === selectedId;
   const isDrafting  = draftingId === selectedId;
+
+  function ReplyArea() {
+    if (!selected) return null;
+    return selected.draft ? (
+      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
+        <div className="flex items-center flex-wrap gap-2 mb-3">
+          <span className="pill pill-ai">
+            <Sparkles className="w-3 h-3" /> Claude&apos;s draft
+          </span>
+          <span className="faint-text">warm tone · matches your past replies</span>
+        </div>
+
+        {isEditing ? (
+          <textarea
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            rows={6}
+            className="w-full v3-input resize-none"
+            style={{ height: "auto", padding: "10px 12px", background: "#fff" }}
+            autoFocus
+          />
+        ) : (
+          <div className="body-text" style={{ whiteSpace: "pre-wrap", color: "#191C21" }}>
+            {selected.draft}
+          </div>
+        )}
+
+        {selected.sources.length > 0 && !isEditing && (
+          <div className="mt-4 pt-4" style={{ borderTop: "1px solid #E7E5DE" }}>
+            <div
+              className="faint-text mb-2"
+              style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em" }}
+            >
+              Based on
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {selected.sources.map((s, i) => (
+                <span key={i} className="src-chip">
+                  <Link2 className="w-3 h-3" /> {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between flex-wrap gap-2 mt-4 pt-4" style={{ borderTop: "1px solid #E7E5DE" }}>
+          <button onClick={() => openCompose(selected.id)} className="btn btn-ghost btn-sm">
+            Write my own
+          </button>
+          <div className="flex gap-2 flex-wrap">
+            {isEditing ? (
+              <>
+                <button onClick={() => setEditingDraftId(null)} className="btn btn-ghost btn-sm">
+                  <X className="w-3 h-3" /> Cancel
+                </button>
+                <button onClick={() => saveEdit(selected.id)} className="btn btn-secondary btn-sm">
+                  <Check className="w-3.5 h-3.5" /> Save
+                </button>
+              </>
+            ) : (
+              <button onClick={() => openEdit(selected.id, selected.draft!)} className="btn btn-secondary btn-sm">
+                <Pencil className="w-3.5 h-3.5" /> Edit
+              </button>
+            )}
+            <button onClick={() => sendDraft(selected.id)} disabled={isSending} className="btn btn-accent btn-sm">
+              {isSending
+                ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Sending…</>
+                : <><Send className="w-3.5 h-3.5" /> Send</>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    ) : isComposing ? (
+      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
+        <div className="flex items-center gap-2 mb-3">
+          <Reply className="w-3.5 h-3.5" style={{ color: "#727680" }} />
+          <span className="muted-text" style={{ fontWeight: 500 }}>Write reply</span>
+        </div>
+        <textarea
+          value={composeText}
+          onChange={(e) => setComposeText(e.target.value)}
+          placeholder="Type your reply…"
+          rows={5}
+          className="w-full v3-input resize-none"
+          style={{ height: "auto", padding: "10px 12px", background: "#fff" }}
+          autoFocus
+        />
+        <div className="flex items-center justify-end gap-2 mt-3 flex-wrap">
+          <button onClick={() => setComposingId(null)} className="btn btn-ghost btn-sm">Cancel</button>
+          <button onClick={() => sendCompose(selected.id)} disabled={isSending || !composeText.trim()} className="btn btn-accent btn-sm">
+            {isSending
+              ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Sending…</>
+              : <><Send className="w-3.5 h-3.5" /> Send</>
+            }
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
+        <div className="muted-text mb-3">
+          {isDrafting
+            ? "Claude is drafting a reply…"
+            : selected.noDraftReason
+              ? selected.noDraftReason
+              : "No draft yet — Claude wasn't confident enough to answer this without you."}
+        </div>
+        <div className="flex items-center justify-end gap-2 flex-wrap">
+          <button onClick={() => markDone(selected.id)} className="btn btn-ghost btn-sm">
+            <Check className="w-3 h-3" /> Mark done
+          </button>
+          <button onClick={() => askClaude(selected.id)} disabled={isDrafting} className="btn btn-secondary btn-sm">
+            {isDrafting
+              ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Drafting…</>
+              : <><Sparkles className="w-3.5 h-3.5" /> Ask Claude to draft</>
+            }
+          </button>
+          <button onClick={() => openCompose(selected.id)} className="btn btn-accent btn-sm">
+            <Reply className="w-3.5 h-3.5" /> Reply
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -218,8 +345,8 @@ export default function InboxPage() {
               </div>
             </div>
 
-            {/* Right pane */}
-            <div className="flex flex-col overflow-hidden">
+            {/* Right pane (desktop only — mobile uses a popup) */}
+            <div className="hidden lg:flex flex-col overflow-hidden">
               {selected ? (
                 <>
                   {/* Header */}
@@ -260,127 +387,7 @@ export default function InboxPage() {
 
                   {/* Reply area */}
                   <div className="px-7 pb-7 shrink-0">
-                    {selected.draft ? (
-                      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="pill pill-ai">
-                            <Sparkles className="w-3 h-3" /> Claude&apos;s draft
-                          </span>
-                          <span className="faint-text">warm tone · matches your past replies</span>
-                        </div>
-
-                        {isEditing ? (
-                          <textarea
-                            value={editText}
-                            onChange={(e) => setEditText(e.target.value)}
-                            rows={6}
-                            className="w-full v3-input resize-none"
-                            style={{ height: "auto", padding: "10px 12px", background: "#fff" }}
-                            autoFocus
-                          />
-                        ) : (
-                          <div className="body-text" style={{ whiteSpace: "pre-wrap", color: "#191C21" }}>
-                            {selected.draft}
-                          </div>
-                        )}
-
-                        {/* Based on … (source chips) */}
-                        {selected.sources.length > 0 && !isEditing && (
-                          <div className="mt-4 pt-4" style={{ borderTop: "1px solid #E7E5DE" }}>
-                            <div
-                              className="faint-text mb-2"
-                              style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em" }}
-                            >
-                              Based on
-                            </div>
-                            <div className="flex flex-wrap gap-1.5">
-                              {selected.sources.map((s, i) => (
-                                <span key={i} className="src-chip">
-                                  <Link2 className="w-3 h-3" /> {s}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="flex items-center justify-between gap-2 mt-4 pt-4" style={{ borderTop: "1px solid #E7E5DE" }}>
-                          <button onClick={() => openCompose(selected.id)} className="btn btn-ghost btn-sm">
-                            Write my own
-                          </button>
-                          <div className="flex gap-2">
-                            {isEditing ? (
-                              <>
-                                <button onClick={() => setEditingDraftId(null)} className="btn btn-ghost btn-sm">
-                                  <X className="w-3 h-3" /> Cancel
-                                </button>
-                                <button onClick={() => saveEdit(selected.id)} className="btn btn-secondary btn-sm">
-                                  <Check className="w-3.5 h-3.5" /> Save
-                                </button>
-                              </>
-                            ) : (
-                              <button onClick={() => openEdit(selected.id, selected.draft!)} className="btn btn-secondary btn-sm">
-                                <Pencil className="w-3.5 h-3.5" /> Edit
-                              </button>
-                            )}
-                            <button onClick={() => sendDraft(selected.id)} disabled={isSending} className="btn btn-accent btn-sm">
-                              {isSending
-                                ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Sending…</>
-                                : <><Send className="w-3.5 h-3.5" /> Send</>
-                              }
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ) : isComposing ? (
-                      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Reply className="w-3.5 h-3.5" style={{ color: "#727680" }} />
-                          <span className="muted-text" style={{ fontWeight: 500 }}>Write reply</span>
-                        </div>
-                        <textarea
-                          value={composeText}
-                          onChange={(e) => setComposeText(e.target.value)}
-                          placeholder="Type your reply…"
-                          rows={5}
-                          className="w-full v3-input resize-none"
-                          style={{ height: "auto", padding: "10px 12px", background: "#fff" }}
-                          autoFocus
-                        />
-                        <div className="flex items-center justify-end gap-2 mt-3">
-                          <button onClick={() => setComposingId(null)} className="btn btn-ghost btn-sm">Cancel</button>
-                          <button onClick={() => sendCompose(selected.id)} disabled={isSending || !composeText.trim()} className="btn btn-accent btn-sm">
-                            {isSending
-                              ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Sending…</>
-                              : <><Send className="w-3.5 h-3.5" /> Send</>
-                            }
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="v3-card p-5" style={{ background: "#FAFAF7" }}>
-                        <div className="muted-text mb-3">
-                          {isDrafting
-                            ? "Claude is drafting a reply…"
-                            : selected.noDraftReason
-                              ? selected.noDraftReason
-                              : "No draft yet — Claude wasn't confident enough to answer this without you."}
-                        </div>
-                        <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => markDone(selected.id)} className="btn btn-ghost btn-sm">
-                            <Check className="w-3 h-3" /> Mark done
-                          </button>
-                          <button onClick={() => askClaude(selected.id)} disabled={isDrafting} className="btn btn-secondary btn-sm">
-                            {isDrafting
-                              ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Drafting…</>
-                              : <><Sparkles className="w-3.5 h-3.5" /> Ask Claude to draft</>
-                            }
-                          </button>
-                          <button onClick={() => openCompose(selected.id)} className="btn btn-accent btn-sm">
-                            <Reply className="w-3.5 h-3.5" /> Reply
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    <ReplyArea />
                   </div>
                 </>
               ) : (
@@ -389,6 +396,33 @@ export default function InboxPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile-only thread popup */}
+      <div className="lg:hidden">
+        <Modal
+          open={mobileOpen && selected != null}
+          onClose={() => setMobileOpen(false)}
+          title={selected?.sender ?? "Message"}
+          width="560px"
+        >
+          {selected && (
+            <div className="space-y-4">
+              <div className="flex items-center flex-wrap gap-2">
+                <ChannelChip channel={selected.channel} />
+                <span className="faint-text">{selected.time}</span>
+              </div>
+              <h3 className="h3 resp-wrap">{selected.subject}</h3>
+              <div
+                className="body-text"
+                style={{ whiteSpace: "pre-wrap", color: "#191C21" }}
+              >
+                {selected.body}
+              </div>
+              <ReplyArea />
+            </div>
+          )}
+        </Modal>
       </div>
     </>
   );

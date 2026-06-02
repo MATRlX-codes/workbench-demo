@@ -196,7 +196,7 @@ export default function MoneyPage() {
                 <span style={{ color: "#2E844A" }}>{money.cashDeltaPct}</span>&nbsp;over 30 days
               </div>
             </div>
-            <div>
+            <div className="resp-chart min-w-0">
               <svg viewBox="0 0 300 88" width="100%" height="88" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="sf" x1="0" x2="0" y1="0" y2="1">
@@ -235,7 +235,7 @@ export default function MoneyPage() {
               <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-sm" style={{ background: "#9A2D24" }} /><span>Out</span></div>
             </div>
           </div>
-          <div className="flex items-end gap-[3px]" style={{ height: 120 }}>
+          <div className="flex items-end gap-[3px] resp-chart min-w-0" style={{ height: 120 }}>
             {CASHFLOW_DAYS.map((d, i) => {
               const inH  = Math.round((d.in  / MAX_CF) * 110);
               const outH = Math.round((d.out / MAX_CF) * 110);
@@ -295,8 +295,8 @@ export default function MoneyPage() {
         />
 
         {/* Due this week */}
-        <div className="apple-card mb-9 overflow-x-auto">
-          <div className="min-w-[680px]">
+        <div className="apple-card mb-9 resp-table">
+          <div className="min-w-[680px] resp-min">
           <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#E8F0FB", borderBottom: "1px solid rgba(0,102,204,0.18)" }}>
             <span className="pill pill-info">
               <Calendar className="w-3 h-3" /> Due this week
@@ -306,7 +306,7 @@ export default function MoneyPage() {
           {DUE_WEEK.map((row, i) => (
             <div
               key={row.name}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.5fr 0.7fr 0.7fr 1fr 1fr",
                 padding: "14px 18px",
@@ -314,13 +314,13 @@ export default function MoneyPage() {
               }}
             >
               <div>
-                <div className="apple-caption-strong">{row.name}</div>
-                <div className="apple-fine">{row.ref}</div>
+                <div className="apple-caption-strong resp-wrap">{row.name}</div>
+                <div className="apple-fine resp-wrap">{row.ref}</div>
               </div>
               <div className="apple-caption-strong tnum">{row.amount}</div>
               <div className="apple-fine">{row.due}</div>
               <div className="apple-fine">—</div>
-              <div className="flex justify-end">
+              <div className="flex justify-end resp-actions">
                 {scheduledChase.has(row.name) ? (
                   <span className="pill pill-ok"><Check className="w-3 h-3" /> Chase scheduled</span>
                 ) : (
@@ -343,7 +343,7 @@ export default function MoneyPage() {
         {/* Reconciliation */}
         <h3 className="section-title mb-3">Reconciliation</h3>
         <div className="apple-card p-5">
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="shrink-0">
               <svg width="86" height="86" viewBox="0 0 36 36">
                 <circle cx="18" cy="18" r="15.915" fill="none" stroke="#E0E0E0" strokeWidth="3.4" />
@@ -362,7 +362,7 @@ export default function MoneyPage() {
               </div>
               <div className="apple-fine mt-1">Run finished {money.reconFinished} · took {money.reconTook}</div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
               <button onClick={() => setReconReport(true)} className="btn btn-pearl">
                 <FileText className="w-3.5 h-3.5" /> Full report
               </button>
@@ -555,8 +555,8 @@ function InvoiceSection({
   onChase: (row: InvoiceRow) => void;
 }) {
   return (
-    <div className="apple-card mb-3 overflow-x-auto">
-      <div className="min-w-[680px]">
+    <div className="apple-card mb-3 resp-table">
+      <div className="min-w-[680px] resp-min">
       <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: headerBg, borderBottom: `1px solid ${headerBorder}` }}>
         <span className={`pill ${pillCls}`}>{icon} {label}</span>
         <span className="apple-caption" style={{ color: subColor }}>{sub}</span>
@@ -566,7 +566,7 @@ function InvoiceSection({
         return (
           <div
             key={row.id}
-            className="grid items-center"
+            className="grid items-center resp-row"
             style={{
               gridTemplateColumns: "1.5fr 0.7fr 0.7fr 1fr 1fr",
               padding: "14px 18px",
@@ -574,13 +574,13 @@ function InvoiceSection({
             }}
           >
             <div>
-              <div className="apple-caption-strong">{row.name}</div>
-              <div className="apple-fine">{row.ref}</div>
+              <div className="apple-caption-strong resp-wrap">{row.name}</div>
+              <div className="apple-fine resp-wrap">{row.ref}</div>
             </div>
             <div className="apple-caption-strong tnum">{row.amount}</div>
             <div><span className={`pill ${row.pill === "bad" ? "pill-bad" : "pill-warn"}`}>{row.age}</span></div>
             <div className="apple-fine">{row.chaseNote}</div>
-            <div className="flex justify-end">
+            <div className="flex justify-end resp-actions">
               {done ? (
                 <span className="pill pill-ok"><Check className="w-3 h-3" /> Sent · in Inbox</span>
               ) : (
@@ -776,7 +776,7 @@ function ForecastCard({ weeks, note }: { weeks: ForecastWeek[]; note: string }) 
           <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-sm" style={{ background: "#9A2D24" }} /><span>Committed out</span></div>
         </div>
       </div>
-      <div className="flex items-end gap-3" style={{ height: 132 }}>
+      <div className="flex items-end gap-3 resp-chart min-w-0" style={{ height: 132 }}>
         {weeks.map((w) => {
           const net = w.in - w.out;
           const inH  = Math.round((w.in  / max) * 110);
@@ -816,8 +816,8 @@ function StaleQuotesSection({ quotes, signoff }: { quotes: StaleQuote[]; signoff
         <h3 className="section-title">Quote shelf-life</h3>
         <span className="apple-fine">Open quotes ageing past their valid-for window · prices may have moved</span>
       </div>
-      <div className="apple-card overflow-x-auto">
-        <div className="min-w-[680px]">
+      <div className="apple-card resp-table">
+        <div className="min-w-[680px] resp-min">
         <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#F5EAD6", borderBottom: "1px solid #ecdcbb" }}>
           <span className="pill pill-warn"><Clock className="w-3 h-3" /> Ageing</span>
           <span className="apple-caption" style={{ color: "#8A5A12" }}>{quotes.length} quotes · nudge before they go cold</span>
@@ -827,7 +827,7 @@ function StaleQuotesSection({ quotes, signoff }: { quotes: StaleQuote[]; signoff
           return (
             <div
               key={q.ref}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.6fr 0.8fr 0.8fr 1.1fr 1fr",
                 padding: "14px 18px",
@@ -835,13 +835,13 @@ function StaleQuotesSection({ quotes, signoff }: { quotes: StaleQuote[]; signoff
               }}
             >
               <div>
-                <div className="apple-caption-strong">{q.customer}</div>
-                <div className="apple-fine">{q.ref} · {q.sku}</div>
+                <div className="apple-caption-strong resp-wrap">{q.customer}</div>
+                <div className="apple-fine resp-wrap">{q.ref} · {q.sku}</div>
               </div>
               <div className="apple-caption-strong tnum">{q.amount}</div>
               <div><span className="pill pill-warn">{q.ageDays}d old</span></div>
               <div className="apple-fine" style={{ color: "#8A5A12" }}>cost {q.move}</div>
-              <div className="flex justify-end">
+              <div className="flex justify-end resp-actions">
                 {done ? (
                   <span className="pill pill-ok"><Check className="w-3 h-3" /> Nudged</span>
                 ) : (
@@ -892,7 +892,7 @@ function ReviewRequestsSection({
           return (
             <div
               key={c.id}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.6fr 1.6fr 1fr",
                 padding: "14px 18px",
@@ -900,11 +900,11 @@ function ReviewRequestsSection({
               }}
             >
               <div>
-                <div className="apple-caption-strong">{c.name}</div>
-                <div className="apple-fine">{c.email}</div>
+                <div className="apple-caption-strong resp-wrap">{c.name}</div>
+                <div className="apple-fine resp-wrap">{c.email}</div>
               </div>
               <div className="apple-fine">{lastCompleted ? `${lastCompleted.type} · ${lastCompleted.detail}` : "Recent completed job"}</div>
-              <div className="flex justify-end">
+              <div className="flex justify-end resp-actions">
                 {done ? (
                   <span className="pill pill-ok"><Check className="w-3 h-3" /> Request sent</span>
                 ) : (

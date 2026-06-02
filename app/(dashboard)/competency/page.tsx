@@ -132,7 +132,7 @@ export default function CompetencyPage() {
         </div>
 
         {/* EICR pipeline */}
-        <div className="flex items-baseline justify-between mb-3">
+        <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
           <h3 className="section-title">EICR renewal pipeline</h3>
           {dueEicr.length > 0 && (
             batchDone ? (
@@ -146,10 +146,10 @@ export default function CompetencyPage() {
         </div>
         <p className="apple-fine mb-3">{data.eicrIntro}</p>
 
-        <div className="apple-card overflow-x-auto">
-          <div className="min-w-[640px]">
+        <div className="apple-card resp-table">
+          <div className="min-w-[640px] resp-min">
             <div
-              className="grid items-center apple-fine"
+              className="grid items-center apple-fine resp-head"
               style={{ gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr", padding: "10px 16px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Property</div><div>Landlord</div><div>Expires</div><div>Stage</div><div className="text-right">Action</div>
@@ -159,7 +159,7 @@ export default function CompetencyPage() {
               return (
                 <div
                   key={j.property}
-                  className="grid items-center"
+                  className="grid items-center resp-row"
                   style={{
                     gridTemplateColumns: "1.6fr 1.2fr 1fr 0.9fr 1fr",
                     padding: "13px 16px",
@@ -167,14 +167,14 @@ export default function CompetencyPage() {
                     borderBottom: i < data.eicrJobs.length - 1 ? "1px solid #F0F0F0" : "none",
                   }}
                 >
-                  <div className="apple-caption-strong">{j.property}</div>
-                  <div className="apple-caption">{j.landlord}</div>
+                  <div className="apple-caption-strong resp-wrap">{j.property}</div>
+                  <div className="apple-caption resp-wrap">{j.landlord}</div>
                   <div>
                     <div className="apple-caption">{j.expires}</div>
                     <div className="apple-fine">{j.daysOut < 0 ? `${Math.abs(j.daysOut)}d overdue` : `in ${j.daysOut}d`}</div>
                   </div>
                   <div><span className={`pill ${STAGE_PILL[j.stage]}`}>{j.stage}</span></div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end resp-actions">
                     {done ? (
                       <span className="pill pill-ok"><Check className="w-3 h-3" /> Nudged · {j.channel}</span>
                     ) : (

@@ -76,8 +76,8 @@ export default function CalendarPage() {
         </div>
 
         {view === "week" ? (
-          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div className="grid grid-cols-6 gap-3 min-w-[720px]">
+          <div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {DAYS.map((day) => (
               <div key={day} className="min-w-0">
                 <div
@@ -100,9 +100,9 @@ export default function CalendarPage() {
                         textDecoration: j.status === "cancelled" ? "line-through" : "none",
                       }}
                     >
-                      <div className="flex items-center justify-between gap-1.5 mb-1">
+                      <div className="flex items-center justify-between gap-1.5 mb-1 flex-wrap">
                         <span className="pill pill-soft" style={{ height: 18, fontSize: 10 }}>{jobLabel(j.kind)}</span>
-                        {j.status === "tentative" && <span className="faint-text" style={{ color: "#8A5A12" }}>unconfirmed</span>}
+                        {j.status === "tentative" && <span className="faint-text" style={{ color: "#8A5A12", fontSize: 10 }}>unconfirmed</span>}
                       </div>
                       <div style={{ fontSize: 11.5, fontWeight: 600, color: "#191C21" }} className="truncate">{j.title}</div>
                       <div className="faint-text mt-0.5">{j.time} · {j.detail}</div>
@@ -137,22 +137,22 @@ export default function CalendarPage() {
                     textDecoration: j.status === "cancelled" ? "line-through" : "none",
                   }}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                    <div className="min-w-0">
+                      <div className="flex items-center flex-wrap gap-2 mb-1">
                         <span className="pill pill-soft">{jobLabel(j.kind)}</span>
                         {j.status === "tentative" && <span className="pill pill-warn">unconfirmed</span>}
                         {j.status === "completed" && <span className="pill pill-ok"><Check className="w-3 h-3" /> done</span>}
                       </div>
-                      <div className="h3">{j.title}</div>
-                      <div className="muted-text mt-0.5">{j.detail}</div>
-                      <div className="faint-text mt-1.5 flex items-center gap-3">
+                      <div className="h3 resp-wrap">{j.title}</div>
+                      <div className="muted-text mt-0.5 resp-wrap">{j.detail}</div>
+                      <div className="faint-text mt-1.5 flex items-center flex-wrap gap-x-3 gap-y-1">
                         <span>{j.time} · {j.durationMins} min</span>
                         <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {j.location}</span>
                         <span>· {j.team}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center gap-2 shrink-0 flex-wrap" onClick={(e) => e.stopPropagation()}>
                       {j.phone && <a href={`tel:${j.phone}`} className="btn btn-secondary btn-sm"><Phone className="w-3 h-3" /> Call</a>}
                       {j.kind === "delivery" && <button className="btn btn-secondary btn-sm"><Truck className="w-3 h-3" /> Track</button>}
                       {j.status === "tentative" && (
@@ -299,8 +299,8 @@ function WeatherSection({ data }: { data: WeatherData }) {
         </div>
         <div className="apple-fine mb-4">{data.intro}</div>
 
-        <div className="overflow-x-auto -mx-1 px-1">
-        <div className="grid gap-2.5 min-w-[560px]" style={{ gridTemplateColumns: `repeat(${data.forecast.length}, minmax(0, 1fr))` }}>
+        <div>
+        <div className="grid gap-2.5 wx-grid" style={{ gridTemplateColumns: `repeat(${data.forecast.length}, minmax(0, 1fr))` }}>
           {data.forecast.map((d) => (
             <div
               key={d.date}
@@ -331,9 +331,9 @@ function WeatherSection({ data }: { data: WeatherData }) {
       </div>
 
       {/* Jobs affected */}
-      <div className="apple-card overflow-x-auto">
-        <div className="min-w-[640px]">
-        <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: "#F5EAD6", borderBottom: "1px solid #ecdcbb" }}>
+      <div className="apple-card resp-table">
+        <div className="min-w-[640px] resp-min">
+        <div className="flex items-center gap-2 px-4 py-2.5 flex-wrap" style={{ background: "#F5EAD6", borderBottom: "1px solid #ecdcbb" }}>
           <span className="pill pill-warn"><CalendarClock className="w-3 h-3" /> Weather-sensitive jobs</span>
           <span className="apple-caption" style={{ color: "#8A5A12" }}>{toMove.length} need moving · {data.jobs.length - toMove.length} fine as scheduled</span>
         </div>
@@ -342,7 +342,7 @@ function WeatherSection({ data }: { data: WeatherData }) {
           return (
             <div
               key={j.title}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.6fr 0.9fr 1.6fr 1fr",
                 padding: "14px 18px",
@@ -350,12 +350,12 @@ function WeatherSection({ data }: { data: WeatherData }) {
               }}
             >
               <div>
-                <div className="apple-caption-strong">{j.title}</div>
-                <div className="apple-fine">{j.customer}{j.needsDry ? " · needs a dry day" : " · weather not a blocker"}</div>
+                <div className="apple-caption-strong resp-wrap">{j.title}</div>
+                <div className="apple-fine resp-wrap">{j.customer}{j.needsDry ? " · needs a dry day" : " · weather not a blocker"}</div>
               </div>
               <div className="apple-fine">{j.scheduled}</div>
-              <div className="apple-fine">{j.suggestion}</div>
-              <div className="flex justify-end">
+              <div className="apple-fine resp-wrap">{j.suggestion}</div>
+              <div className="flex justify-end resp-actions">
                 {j.action === "ok" ? (
                   <span className="pill pill-ok"><Check className="w-3 h-3" /> Keep</span>
                 ) : done ? (

@@ -356,3 +356,55 @@ html, body {
   outline: 2px solid #0071E3;
   outline-offset: 2px;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE RESPONSIVE HELPERS (phone only — desktop untouched)
+   Grid "table" rows reflow into stacked blocks so everything
+   fits the screen width with no horizontal scrolling.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Container that previously forced horizontal scroll */
+  .resp-table { overflow-x: visible !important; }
+  .resp-table .resp-min { min-width: 0 !important; }
+
+  /* A grid row becomes a stacked block on phones */
+  .resp-row {
+    display: block !important;
+    grid-template-columns: none !important;
+    padding: 12px 14px !important;
+  }
+  .resp-row > * {
+    width: 100% !important;
+    text-align: left !important;
+    min-width: 0 !important;
+  }
+  .resp-row > * + * { margin-top: 5px; }
+
+  /* Action clusters: left-align and allow wrapping, never overflow */
+  .resp-row .resp-actions,
+  .resp-actions {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Header rows for tables are noise on phones */
+  .resp-head { display: none !important; }
+
+  /* Cap oversized display fonts so they fit narrow cards.
+     !important also overrides inline fontSize on phones. */
+  .apple-hero    { font-size: 26px !important; line-height: 1.15 !important; }
+  .apple-display { font-size: 22px !important; }
+
+  /* Long words / refs wrap instead of overflowing */
+  .resp-wrap { overflow-wrap: anywhere; word-break: break-word; }
+
+  /* Charts / SVGs never spill past their panel */
+  .resp-chart { max-width: 100% !important; overflow: hidden !important; }
+  .resp-chart svg { max-width: 100%; height: auto; }
+  /* Fixed-width chart bars shrink so the whole chart fits the panel */
+  .resp-chart .wx-bar { width: 6px !important; }
+
+  /* Weather / multi-column tile grids wrap to a phone-friendly count
+     instead of forcing a fixed N-column track that overflows. */
+  .wx-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}

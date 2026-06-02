@@ -45,7 +45,7 @@ export default function SeasonalityPage() {
               <div className="flex items-center gap-1.5"><Receipt className="w-3 h-3" style={{ color: "#9A2D24" }} /><span>VAT due</span></div>
             </div>
           </div>
-          <div className="flex items-end gap-2.5" style={{ height: 200 }}>
+          <div className="flex items-end gap-2.5 resp-chart min-w-0" style={{ height: 200 }}>
             {data.months.map((m) => {
               const revH = Math.round((m.revenue / max) * 170);
               const costH = Math.round((m.costs / max) * 170);
@@ -58,8 +58,8 @@ export default function SeasonalityPage() {
                         <Receipt className="w-3.5 h-3.5" style={{ color: "#9A2D24" }} />
                       </div>
                     )}
-                    <div className="rounded-t-[3px]" style={{ width: 14, height: revH, background: isTrough ? "#9A2D24" : "#0066CC" }} title={`Revenue £${m.revenue.toLocaleString()}`} />
-                    <div className="rounded-t-[3px]" style={{ width: 14, height: costH, background: "#C7CDD4" }} title={`Costs £${m.costs.toLocaleString()}`} />
+                    <div className="rounded-t-[3px] wx-bar" style={{ width: 14, height: revH, background: isTrough ? "#9A2D24" : "#0066CC" }} title={`Revenue £${m.revenue.toLocaleString()}`} />
+                    <div className="rounded-t-[3px] wx-bar" style={{ width: 14, height: costH, background: "#C7CDD4" }} title={`Costs £${m.costs.toLocaleString()}`} />
                   </div>
                   <div className="apple-fine" style={{ fontSize: 10.5, fontWeight: isTrough ? 700 : 400, color: isTrough ? "#9A2D24" : undefined }}>{m.month}</div>
                 </div>

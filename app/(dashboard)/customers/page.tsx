@@ -271,19 +271,19 @@ export default function CustomersPage() {
         {/* ─────────── DETAIL PANE ─────────── */}
         <div className="flex-1 md:overflow-y-auto px-4 sm:px-8 py-7">
           {/* Header */}
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <div>
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+            <div className="min-w-0">
               <div className="flex items-center gap-3 mb-1.5">
-                <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: "#1D1D1F", color: "#fff", fontSize: 15, fontWeight: 700 }}>
+                <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0" style={{ background: "#1D1D1F", color: "#fff", fontSize: 15, fontWeight: 700 }}>
                   {selected.name.split(" ").map((s) => s[0]).slice(0, 2).join("")}
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="apple-display" style={{ fontSize: 24 }}>{selected.name}</h2>
+                <div className="min-w-0">
+                  <div className="flex items-center flex-wrap gap-2">
+                    <h2 className="apple-display resp-wrap" style={{ fontSize: 24 }}>{selected.name}</h2>
                     <span className={`pill ${selected.kind === "trade" ? "pill-info" : "pill-soft"}`}>{selected.kind === "trade" ? "Trade account" : "Retail"}</span>
                     <span className="pill pill-soft">{selected.hubspotStage}</span>
                   </div>
-                  <div className="apple-fine">{selected.industry} · since {selected.since} · owner {selected.pm}</div>
+                  <div className="apple-fine resp-wrap">{selected.industry} · since {selected.since} · owner {selected.pm}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2 mt-2">
@@ -291,7 +291,7 @@ export default function CustomersPage() {
                 <span className="apple-caption">Acquired via {selected.source}</span>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap shrink-0">
               <a href={`mailto:${selected.email}`} className="btn btn-pearl">
                 <Mail className="w-3.5 h-3.5" /> Email
               </a>
@@ -368,7 +368,7 @@ export default function CustomersPage() {
           {detailTab === "overview" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Spend chart */}
-              <div className="apple-card p-5 col-span-2">
+              <div className="apple-card p-5 lg:col-span-2">
                 <div className="flex items-baseline justify-between mb-3">
                   <div>
                     <div className="apple-caption-strong">Spend over the last 12 months</div>
@@ -387,7 +387,7 @@ export default function CustomersPage() {
               </div>
 
               {/* Payment behavior */}
-              <div className="apple-card p-5 col-span-2">
+              <div className="apple-card p-5 lg:col-span-2">
                 <div className="flex items-baseline justify-between mb-3">
                   <div>
                     <div className="apple-caption-strong">Payment behaviour</div>
@@ -441,7 +441,7 @@ export default function CustomersPage() {
               </div>
 
               {/* Connector sources */}
-              <div className="apple-card p-5 col-span-3" style={{ background: "#FAFAFC" }}>
+              <div className="apple-card p-5 lg:col-span-3" style={{ background: "#FAFAFC" }}>
                 <div className="apple-fine mb-2">Data pulled live from</div>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="src-chip"><FileText className="w-3 h-3" /> Xero · invoices, payments, aging</span>
@@ -760,7 +760,7 @@ function NewQuoteModal({
           {/* Templates */}
           <div>
             <div className="apple-fine mb-2">Start from a template</div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {TEMPLATES.map((tpl, i) => {
                 const picked = i === templateIdx;
                 return (
@@ -1047,27 +1047,27 @@ function SiteSurveyPanel({ data }: { data: SiteSurveyData }) {
         ))}
       </div>
 
-      <div className="apple-card overflow-x-auto">
-        <div className="min-w-[560px]">
+      <div className="apple-card resp-table">
+        <div className="min-w-[560px] resp-min">
         <div className="px-4 py-2.5 apple-fine" style={{ background: "#F5F5F7", borderBottom: "1px solid #E0E0E0", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em" }}>
           Recent surveys
         </div>
         {data.recent.map((r, i) => (
           <div
             key={r.customer}
-            className="grid items-center"
+            className="grid items-center resp-row"
             style={{
               gridTemplateColumns: "1.2fr 0.8fr 2fr 0.9fr",
               padding: "12px 16px",
               borderBottom: i < data.recent.length - 1 ? "1px solid #F0F0F0" : "none",
             }}
           >
-            <div className="apple-caption-strong">{r.customer}</div>
+            <div className="apple-caption-strong resp-wrap">{r.customer}</div>
             <div className="apple-fine">{r.date}</div>
             <div className="apple-fine flex items-center gap-1.5">
               <Camera className="w-3 h-3" /> {r.photos} photos · {r.dims}
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end resp-actions">
               {r.status === "captured"
                 ? <span className="pill pill-ok"><Check className="w-3 h-3" /> Captured</span>
                 : <span className="pill pill-warn">Today</span>}
@@ -1095,14 +1095,14 @@ function VariationOrdersPanel({ orders }: { orders: VariationOrder[] }) {
         Anything the survey or build turns up becomes a priced variation — sent to the customer, tracked to a yes or no, never absorbed for free.
       </p>
 
-      <div className="apple-card overflow-x-auto">
-        <div className="min-w-[640px]">
+      <div className="apple-card resp-table">
+        <div className="min-w-[640px] resp-min">
         {orders.map((o, i) => {
           const status = decided[o.id] ?? o.status;
           return (
             <div
               key={o.id}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "0.7fr 1.5fr 1.8fr 0.8fr 1.1fr",
                 padding: "13px 16px",
@@ -1111,12 +1111,12 @@ function VariationOrdersPanel({ orders }: { orders: VariationOrder[] }) {
             >
               <div className="apple-caption-strong tnum">{o.id}</div>
               <div>
-                <div className="apple-caption-strong">{o.job}</div>
-                <div className="apple-fine">{o.customer} · raised {o.raised}</div>
+                <div className="apple-caption-strong resp-wrap">{o.job}</div>
+                <div className="apple-fine resp-wrap">{o.customer} · raised {o.raised}</div>
               </div>
-              <div className="apple-fine">{o.desc}</div>
+              <div className="apple-fine resp-wrap">{o.desc}</div>
               <div className="apple-caption-strong tnum">{o.amount}</div>
-              <div className="flex justify-end">
+              <div className="flex justify-end resp-actions">
                 {status === "approved" ? (
                   <span className="pill pill-ok"><Check className="w-3 h-3" /> Approved</span>
                 ) : status === "declined" ? (

@@ -75,7 +75,7 @@ export default function ServiceContractsPage() {
 
         {/* Ready to schedule (batch) */}
         <div className="apple-card p-5 mb-8" style={{ background: "#E8F0FB", borderColor: "rgba(0,102,204,0.18)" }}>
-          <div className="flex items-start justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
             <div>
               <div className="apple-tagline" style={{ fontSize: 17, color: "#0a3d6e" }}>
                 {data.readyToSchedule.length} service reminders ready to send
@@ -107,10 +107,10 @@ export default function ServiceContractsPage() {
 
         {/* Plan table */}
         <h3 className="section-title mb-3">All plans</h3>
-        <div className="apple-card overflow-x-auto">
-          <div className="min-w-[720px]">
+        <div className="apple-card resp-table">
+          <div className="min-w-[720px] resp-min">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine resp-head"
               style={{ gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Customer</div><div>Asset</div><div>Plan</div><div className="text-right">MRR</div><div>Next service</div><div className="text-right">Status</div>
@@ -122,7 +122,7 @@ export default function ServiceContractsPage() {
               return (
                 <div
                   key={p.id}
-                  className="grid items-center"
+                  className="grid items-center resp-row"
                   style={{
                     gridTemplateColumns: "1.4fr 1fr 0.8fr 0.7fr 1fr 1.1fr",
                     padding: "13px 16px",
@@ -131,10 +131,10 @@ export default function ServiceContractsPage() {
                   }}
                 >
                   <div>
-                    <div className="apple-caption-strong">{p.customer}</div>
-                    <div className="apple-fine">{p.address}</div>
+                    <div className="apple-caption-strong resp-wrap">{p.customer}</div>
+                    <div className="apple-fine resp-wrap">{p.address}</div>
                   </div>
-                  <div className="apple-caption">{p.asset}</div>
+                  <div className="apple-caption resp-wrap">{p.asset}</div>
                   <div><span className="pill pill-soft">{p.plan}</span></div>
                   <div className="apple-caption-strong tnum text-right">{p.monthly}</div>
                   <div>
@@ -145,7 +145,7 @@ export default function ServiceContractsPage() {
                         : `in ${p.daysToService}d`}
                     </div>
                   </div>
-                  <div className="flex justify-end items-center gap-2">
+                  <div className="flex justify-end items-center gap-2 resp-actions">
                     <span className={`pill ${pill.cls}`}>{pill.label}</span>
                     {needs && (
                       isScheduled ? (

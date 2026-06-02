@@ -177,7 +177,7 @@ export default function ConnectorsPage() {
     <>
       <PageHeader title="Connectors" subtitle={`${connected.length} connected · ${needsReauth.length} need re-auth`} />
 
-      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+      <div className="px-4 sm:px-8 py-7 max-w-[1120px] mx-auto">
         <div className="mb-7">
           <p className="apple-lead" style={{ color: "#333333" }}>
             The services Claude can act on for you. Every action still goes through the approval queue — connecting only grants read and draft access.
@@ -218,7 +218,7 @@ export default function ConnectorsPage() {
         {needsReauth.length > 0 && (
           <section className="mb-8">
             <h3 className="section-title mb-3">Needs re-auth ({needsReauth.length})</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {needsReauth.map((c) => (
                 <ConnectorCard
                   key={c.id}
@@ -237,7 +237,7 @@ export default function ConnectorsPage() {
         {connected.length > 0 && (
           <section className="mb-8">
             <h3 className="section-title mb-3">Connected ({connected.length})</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {connected.map((c) => (
                 <ConnectorCard
                   key={c.id}
@@ -256,7 +256,7 @@ export default function ConnectorsPage() {
         {disconnected.length > 0 && (
           <section>
             <h3 className="section-title mb-3">Available to connect ({disconnected.length})</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {disconnected.map((c) => (
                 <ConnectorCard
                   key={c.id}

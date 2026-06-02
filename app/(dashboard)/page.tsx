@@ -111,12 +111,12 @@ export default function TodayPage() {
           <h3 className="section-title">Today&apos;s diary</h3>
           <span className="apple-fine">{today.diarySubtitle}</span>
         </div>
-        <div className="apple-card mb-9 overflow-x-auto">
-          <div className="min-w-[640px]">
+        <div className="apple-card mb-9 resp-table">
+          <div className="min-w-[640px] resp-min">
           {diary.map((entry, i) => (
             <div
               key={entry.id}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "74px 1fr 210px 200px",
                 padding: "14px 18px",
@@ -126,11 +126,11 @@ export default function TodayPage() {
             >
               <div className="tnum apple-caption-strong">{entry.time}</div>
               <div>
-                <div className="apple-caption-strong">{entry.title}</div>
-                <div className="apple-fine mt-0.5">{entry.detail}</div>
+                <div className="apple-caption-strong resp-wrap">{entry.title}</div>
+                <div className="apple-fine mt-0.5 resp-wrap">{entry.detail}</div>
               </div>
-              <div className="apple-fine">{entry.location}</div>
-              <div className="flex justify-end">
+              <div className="apple-fine resp-wrap">{entry.location}</div>
+              <div className="flex justify-end resp-actions">
                 {entry.status === "unconfirmed" ? (
                   <button onClick={() => openConfirm(entry)} className="btn btn-pearl">
                     Confirm with customer
@@ -154,7 +154,7 @@ export default function TodayPage() {
               className="apple-card p-5 mb-2"
               style={{ background: "#F5EAD6", borderColor: "#ecdcbb" }}
             >
-              <div className="flex items-start justify-between gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
                 <div className="flex items-start gap-3 min-w-0">
                   <div
                     className="shrink-0 w-9 h-9 rounded-[9px] flex items-center justify-center"
@@ -171,7 +171,7 @@ export default function TodayPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-2 shrink-0 flex-wrap">
                   <button
                     onClick={() => setRiskDismissed(true)}
                     className="btn btn-ghost btn-sm"
@@ -309,12 +309,12 @@ function ChaseListSection() {
           </div>
         </div>
       ) : (
-        <div className="apple-card overflow-x-auto">
-          <div className="min-w-[720px]">
+        <div className="apple-card resp-table">
+          <div className="min-w-[720px] resp-min">
           {entries.map((e, i) => (
             <div
               key={e.id}
-              className="grid items-center"
+              className="grid items-center resp-row"
               style={{
                 gridTemplateColumns: "1.4fr 110px 1.4fr 90px 90px 180px",
                 padding: "12px 18px",
@@ -324,8 +324,8 @@ function ChaseListSection() {
               }}
             >
               <div>
-                <div className="apple-caption-strong">{e.customer}</div>
-                <div className="apple-fine">{e.reason}</div>
+                <div className="apple-caption-strong resp-wrap">{e.customer}</div>
+                <div className="apple-fine resp-wrap">{e.reason}</div>
               </div>
               <div className="apple-fine tnum">{e.invoiceRef ?? "—"}</div>
               <div className="apple-caption">
@@ -336,7 +336,7 @@ function ChaseListSection() {
               </div>
               <div className="apple-caption-strong tnum text-right">{e.amount ?? "—"}</div>
               <div className="apple-fine text-right">{relative(e.addedAt)}</div>
-              <div className="flex justify-end gap-1.5">
+              <div className="flex justify-end gap-1.5 resp-actions">
                 {e.status === "pending" && (
                   <>
                     <button onClick={() => snooze(e.id)} className="btn btn-pearl" title="Snooze 3 days">
