@@ -576,7 +576,7 @@ export function PurchaseOrderModal({
         <div className="space-y-4">
           {/* Header */}
           <div className="apple-card p-4">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <div className="apple-fine">Supplier</div>
                 <div className="apple-caption-strong mt-0.5">Continental Flooring</div>
@@ -600,9 +600,9 @@ export function PurchaseOrderModal({
           </div>
 
           {/* Lines */}
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine min-w-[620px]"
               style={{ gridTemplateColumns: "1.8fr 80px 90px 100px 110px 40px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Product</div>
@@ -618,7 +618,7 @@ export function PurchaseOrderModal({
             {lines.map((l, i) => (
               <div
                 key={l.id}
-                className="grid items-center px-4 py-3"
+                className="grid items-center px-4 py-3 min-w-[620px]"
                 style={{
                   gridTemplateColumns: "1.8fr 80px 90px 100px 110px 40px",
                   borderBottom: i < lines.length - 1 ? "1px solid #F0F0F0" : "none",
@@ -811,7 +811,7 @@ export function QuoteEditModal({
       ) : (
         <div className="space-y-4">
           <div className="apple-card p-4">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <div className="apple-fine">Customer</div>
                 <div className="apple-caption-strong mt-0.5">Mr & Mrs Doyle</div>
@@ -831,9 +831,9 @@ export function QuoteEditModal({
           </div>
 
           {/* Line items */}
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine min-w-[620px]"
               style={{ gridTemplateColumns: "2.6fr 70px 90px 100px 100px 40px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Description</div>
@@ -846,7 +846,7 @@ export function QuoteEditModal({
             {lines.map((l, i) => (
               <div
                 key={l.id}
-                className="grid items-center px-4 py-2.5"
+                className="grid items-center px-4 py-2.5 min-w-[620px]"
                 style={{
                   gridTemplateColumns: "2.6fr 70px 90px 100px 100px 40px",
                   borderBottom: i < lines.length - 1 ? "1px solid #F0F0F0" : "none",
@@ -900,7 +900,7 @@ export function QuoteEditModal({
 
           {/* Totals */}
           <div className="apple-card p-4">
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
                 <div className="apple-fine">Discount £</div>
                 <input
@@ -1009,7 +1009,7 @@ export function ReconciliationModal({
       ) : (
         <div className="space-y-3">
           {/* Header summary */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: "Matched auto",  value: "412", tone: "ok" },
               { label: "Unmatched",     value: String(remaining), tone: remaining > 0 ? "warn" : "ok" },
@@ -1029,9 +1029,9 @@ export function ReconciliationModal({
           </div>
 
           {/* Lines */}
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine min-w-[680px]"
               style={{ gridTemplateColumns: "70px 2fr 110px 1.4fr 130px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Date</div>
@@ -1045,7 +1045,7 @@ export function ReconciliationModal({
               return (
                 <div
                   key={l.id}
-                  className="grid items-center px-4 py-3"
+                  className="grid items-center px-4 py-3 min-w-[680px]"
                   style={{
                     gridTemplateColumns: "70px 2fr 110px 1.4fr 130px",
                     borderBottom: i < RECON_LINES.length - 1 ? "1px solid #F0F0F0" : "none",
@@ -1076,7 +1076,7 @@ export function ReconciliationModal({
             })}
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="apple-caption">
               {remaining === 0 ? "Everything matched ✓" : `${remaining} still to action`}
             </div>
@@ -1167,7 +1167,7 @@ export function CISReturnModal({
       ) : (
         <div className="space-y-3">
           {/* Summary stats */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: "Subcontractors", value: String(rows.length) },
               { label: "Gross paid",     value: `£${totalGross.toLocaleString()}` },
@@ -1181,9 +1181,9 @@ export function CISReturnModal({
             ))}
           </div>
 
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine min-w-[760px]"
               style={{ gridTemplateColumns: "1.6fr 110px 90px 90px 100px 80px 100px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Subcontractor</div>
@@ -1197,7 +1197,7 @@ export function CISReturnModal({
             {rows.map((r, i) => (
               <div
                 key={r.id}
-                className="grid items-center px-4 py-3"
+                className="grid items-center px-4 py-3 min-w-[760px]"
                 style={{
                   gridTemplateColumns: "1.6fr 110px 90px 90px 100px 80px 100px",
                   borderBottom: i < rows.length - 1 ? "1px solid #F0F0F0" : "none",
@@ -1319,7 +1319,7 @@ export function PayrollModal({
       ) : (
         <div className="space-y-3">
           {/* Summary */}
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
               { label: "Gross",   value: `£${totalGross.toLocaleString(undefined, { maximumFractionDigits: 0 })}` },
               { label: "PAYE",    value: `£${totalPaye.toLocaleString()}` },
@@ -1341,9 +1341,9 @@ export function PayrollModal({
           </div>
 
           {/* Table */}
-          <div className="apple-card overflow-hidden">
+          <div className="apple-card overflow-x-auto">
             <div
-              className="grid items-center px-4 py-2.5 apple-fine"
+              className="grid items-center px-4 py-2.5 apple-fine min-w-[840px]"
               style={{ gridTemplateColumns: "1.5fr 1.2fr 65px 70px 90px 70px 70px 80px 100px", background: "#F5F5F7", borderBottom: "1px solid #E0E0E0" }}
             >
               <div>Name</div>
@@ -1359,7 +1359,7 @@ export function PayrollModal({
             {STAFF_INITIAL.map((r, i) => (
               <div
                 key={r.id}
-                className="grid items-center px-4 py-2.5"
+                className="grid items-center px-4 py-2.5 min-w-[840px]"
                 style={{
                   gridTemplateColumns: "1.5fr 1.2fr 65px 70px 90px 70px 70px 80px 100px",
                   borderBottom: i < STAFF_INITIAL.length - 1 ? "1px solid #F0F0F0" : "none",

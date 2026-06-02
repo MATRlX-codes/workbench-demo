@@ -784,8 +784,8 @@ function ForecastCard({ weeks, note }: { weeks: ForecastWeek[]; note: string }) 
           return (
             <div key={w.week} className="flex-1 flex flex-col items-center gap-1.5">
               <div className="flex items-end gap-1 w-full justify-center" style={{ height: 112 }}>
-                <div className="rounded-t-[3px]" style={{ width: 16, height: inH,  background: "#2E844A" }} />
-                <div className="rounded-t-[3px]" style={{ width: 16, height: outH, background: "#9A2D24" }} />
+                <div className="rounded-t-[3px] wx-bar" style={{ width: 16, height: inH,  background: "#2E844A" }} />
+                <div className="rounded-t-[3px] wx-bar" style={{ width: 16, height: outH, background: "#9A2D24" }} />
               </div>
               <div className="apple-fine tnum" style={{ fontSize: 10.5, color: net < 0 ? "#9A2D24" : "#2E844A", fontWeight: 600 }}>
                 {net < 0 ? "−" : "+"}£{Math.abs(net / 1000).toFixed(1)}k
