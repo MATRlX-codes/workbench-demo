@@ -174,111 +174,135 @@ export default function ConnectorsPage() {
   const disconnected = connectors.filter((c) => c.status === "disconnected");
 
   return (
-    <div className="px-8 py-6 min-h-screen" style={{ background: "#F6F4EE" }}>
-      <PageHeader title="Connectors" subtitle="Manage the services Claude can act on your behalf" />
+    <>
+      <PageHeader title="Connectors" subtitle={`${connected.length} connected · ${needsReauth.length} need re-auth`} />
 
-      {needsReauth.length > 0 && (
-        <div className="flex items-start gap-3 bg-warning-bg border border-warning/20 rounded-[16px] p-4 mb-6">
-          <AlertTriangle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
-          <div>
-            <div className="text-[13.5px] font-semibold text-warning">
-              {needsReauth.length} connector{needsReauth.length > 1 ? "s need" : " needs"} re-authorisation
-            </div>
-            <div className="text-[12.5px] text-stone mt-0.5">
-              {needsReauth.map((c) => c.name).join(", ")} — some workflows may be paused until you reconnect.
-            </div>
-          </div>
+      <div className="px-8 py-7 max-w-[1120px] mx-auto">
+        <div className="mb-7">
+          <p className="apple-lead" style={{ color: "#333333" }}>
+            The services Claude can act on for you. Every action still goes through the approval queue — connecting only grants read and draft access.
+          </p>
         </div>
-      )}
 
-      {/* Connected */}
-      {connected.length > 0 && (
-        <section className="mb-8">
-          <h3 className="text-[13px] font-semibold text-stone uppercase tracking-wide mb-3">Connected ({connected.length})</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {connected.map((c) => (
-              <ConnectorCard
-                key={c.id}
-                connector={c}
-                connecting={connecting === c.id}
-                onConnect={handleConnect}
-                onDisconnect={() => setDisconnectId(c.id)}
-                onReauth={() => setReauthId(c.id)}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+        {/* Summary KPIs */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {[
+            { label: "Connected", value: String(connected.length), sub: "syncing normally" },
+            { label: "Need re-auth", value: String(needsReauth.length), sub: "token expired" },
+            { label: "Available", value: String(disconnected.length), sub: "not yet linked" },
+          ].map((k) => (
+            <div key={k.label} className="apple-card p-4">
+              <div className="apple-fine">{k.label}</div>
+              <div className="apple-display tnum mt-2" style={{ fontSize: 28 }}>{k.value}</div>
+              <div className="apple-fine mt-2">{k.sub}</div>
+            </div>
+          ))}
+        </div>
 
-      {/* Needs re-auth */}
-      {needsReauth.length > 0 && (
-        <section className="mb-8">
-          <h3 className="text-[13px] font-semibold text-warning uppercase tracking-wide mb-3">Needs re-auth ({needsReauth.length})</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {needsReauth.map((c) => (
-              <ConnectorCard
-                key={c.id}
-                connector={c}
-                connecting={connecting === c.id}
-                onConnect={handleConnect}
-                onDisconnect={() => setDisconnectId(c.id)}
-                onReauth={() => setReauthId(c.id)}
-              />
-            ))}
+        {/* Re-auth banner */}
+        {needsReauth.length > 0 && (
+          <div className="apple-card p-4 mb-8 flex items-start gap-3" style={{ background: "#F5EAD6", borderColor: "#ecdcbb" }}>
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "#8A5A12" }} />
+            <div>
+              <div className="apple-caption-strong" style={{ color: "#8A5A12" }}>
+                {needsReauth.length} connector{needsReauth.length > 1 ? "s need" : " needs"} re-authorisation
+              </div>
+              <div className="apple-fine mt-0.5" style={{ color: "#8A5A12" }}>
+                {needsReauth.map((c) => c.name).join(", ")} — some workflows may be paused until you reconnect.
+              </div>
+            </div>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* Disconnected */}
-      {disconnected.length > 0 && (
-        <section>
-          <h3 className="text-[13px] font-semibold text-stone uppercase tracking-wide mb-3">Available to connect ({disconnected.length})</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {disconnected.map((c) => (
-              <ConnectorCard
-                key={c.id}
-                connector={c}
-                connecting={connecting === c.id}
-                onConnect={handleConnect}
-                onDisconnect={() => setDisconnectId(c.id)}
-                onReauth={() => setReauthId(c.id)}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+        {/* Needs re-auth */}
+        {needsReauth.length > 0 && (
+          <section className="mb-8">
+            <h3 className="section-title mb-3">Needs re-auth ({needsReauth.length})</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {needsReauth.map((c) => (
+                <ConnectorCard
+                  key={c.id}
+                  connector={c}
+                  connecting={connecting === c.id}
+                  onConnect={handleConnect}
+                  onDisconnect={() => setDisconnectId(c.id)}
+                  onReauth={() => setReauthId(c.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Connected */}
+        {connected.length > 0 && (
+          <section className="mb-8">
+            <h3 className="section-title mb-3">Connected ({connected.length})</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {connected.map((c) => (
+                <ConnectorCard
+                  key={c.id}
+                  connector={c}
+                  connecting={connecting === c.id}
+                  onConnect={handleConnect}
+                  onDisconnect={() => setDisconnectId(c.id)}
+                  onReauth={() => setReauthId(c.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Disconnected */}
+        {disconnected.length > 0 && (
+          <section>
+            <h3 className="section-title mb-3">Available to connect ({disconnected.length})</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {disconnected.map((c) => (
+                <ConnectorCard
+                  key={c.id}
+                  connector={c}
+                  connecting={connecting === c.id}
+                  onConnect={handleConnect}
+                  onDisconnect={() => setDisconnectId(c.id)}
+                  onReauth={() => setReauthId(c.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
 
       {/* Disconnect confirm modal */}
       <Modal open={!!disconnectId} onClose={() => setDisconnectId(null)} title={`Disconnect ${disconnectTarget?.name ?? ""}`}>
         <div className="space-y-3">
-          <p className="text-[14px] text-ink">
+          <p className="apple-body">
             Disconnecting <strong>{disconnectTarget?.name}</strong> will pause any workflows that depend on it.
             {disconnectTarget?.usedBy && ` Affected: ${disconnectTarget.usedBy.join(", ")}.`}
           </p>
-          <p className="text-[13px] text-stone">You can reconnect at any time.</p>
+          <p className="apple-fine">You can reconnect at any time.</p>
         </div>
         <ModalActions>
-          <button onClick={() => setDisconnectId(null)} className="h-[36px] px-4 rounded-full text-[13.5px] font-semibold text-ink hover:bg-surface-soft transition-colors">Cancel</button>
-          <button onClick={() => handleDisconnect(disconnectId!)} className="h-[36px] px-4 rounded-full text-[13.5px] font-semibold bg-danger text-white hover:opacity-80 transition-opacity">Disconnect</button>
+          <button onClick={() => setDisconnectId(null)} className="btn btn-ghost btn-sm">Cancel</button>
+          <button onClick={() => handleDisconnect(disconnectId!)} className="btn btn-sm" style={{ background: "#9A2D24", color: "#fff" }}>Disconnect</button>
         </ModalActions>
       </Modal>
 
       {/* Re-auth modal */}
       <Modal open={!!reauthId} onClose={() => setReauthId(null)} title={`Re-authorise ${reauthTarget?.name ?? ""}`}>
         <div className="space-y-3">
-          <p className="text-[14px] text-ink">
+          <p className="apple-body">
             <strong>{reauthTarget?.name}</strong> needs you to re-authorise access. This usually means the OAuth token expired.
           </p>
-          <p className="text-[13px] text-stone">You'll be redirected to {reauthTarget?.name} to grant access, then returned here.</p>
+          <p className="apple-fine">You&apos;ll be redirected to {reauthTarget?.name} to grant access, then returned here.</p>
         </div>
         <ModalActions>
-          <button onClick={() => setReauthId(null)} className="h-[36px] px-4 rounded-full text-[13.5px] font-semibold text-ink hover:bg-surface-soft transition-colors">Cancel</button>
-          <button onClick={() => handleReauth(reauthId!)} className="h-[36px] px-4 rounded-full text-[13.5px] font-semibold bg-ink text-on-dark hover:opacity-80 transition-opacity">
-            <RefreshCw className="w-3.5 h-3.5 inline mr-1.5" /> Re-authorise
+          <button onClick={() => setReauthId(null)} className="btn btn-ghost btn-sm">Cancel</button>
+          <button onClick={() => handleReauth(reauthId!)} className="btn btn-primary btn-sm">
+            <RefreshCw className="w-3.5 h-3.5" /> Re-authorise
           </button>
         </ModalActions>
       </Modal>
-    </div>
+    </>
   );
 }
 
@@ -292,31 +316,34 @@ function ConnectorCard({
   onReauth: () => void;
 }) {
   return (
-    <div className="bg-surface-card border border-hairline-light rounded-[20px] p-5">
+    <div className="apple-card p-5">
       <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-[10px] bg-ink flex items-center justify-center text-[11px] font-bold text-on-dark shrink-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <div
+            className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+            style={{ background: "#191C21", color: "#FFFFFF", fontSize: 11, fontWeight: 700 }}
+          >
             {connector.logo}
           </div>
-          <div>
-            <div className="text-[14px] font-semibold text-ink">{connector.name}</div>
-            <div className="text-[12px] text-stone">{connector.description}</div>
+          <div className="min-w-0">
+            <div className="apple-caption-strong">{connector.name}</div>
+            <div className="apple-fine">{connector.description}</div>
           </div>
         </div>
         {statusBadge(connector.status)}
       </div>
 
       {connector.status !== "disconnected" && (
-        <div className="flex items-center gap-4 text-[11.5px] text-stone mb-3">
+        <div className="flex items-center gap-3 apple-fine mb-3">
           {connector.connectedAt && <span>Connected {connector.connectedAt}</span>}
           {connector.lastSync && <span>· Synced {connector.lastSync}</span>}
         </div>
       )}
 
       {connector.usedBy && connector.usedBy.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-4">
+        <div className="flex flex-wrap gap-1.5 mb-4">
           {connector.usedBy.map((w) => (
-            <span key={w} className="h-[20px] px-2 rounded-full bg-surface-soft text-[10.5px] text-stone font-medium">
+            <span key={w} className="pill pill-soft" style={{ height: 20, fontSize: 10.5 }}>
               {w}
             </span>
           ))}
@@ -325,30 +352,19 @@ function ConnectorCard({
 
       <div className="flex gap-2 pt-1">
         {connector.status === "disconnected" && (
-          <button
-            onClick={() => onConnect(connector.id)}
-            disabled={connecting}
-            className="flex items-center gap-1.5 h-[30px] px-3 rounded-full text-[12.5px] font-semibold bg-ink text-on-dark hover:opacity-80 transition-opacity disabled:opacity-50"
-          >
+          <button onClick={() => onConnect(connector.id)} disabled={connecting} className="btn btn-primary btn-sm">
             {connecting ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
             {connecting ? "Connecting…" : "Connect"}
           </button>
         )}
         {connector.status === "reauth" && (
-          <button
-            onClick={onReauth}
-            disabled={connecting}
-            className="flex items-center gap-1.5 h-[30px] px-3 rounded-full text-[12.5px] font-semibold bg-warning text-white hover:opacity-80 transition-opacity disabled:opacity-50"
-          >
-            {connecting ? <RefreshCw className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+          <button onClick={onReauth} disabled={connecting} className="btn btn-warn btn-sm">
+            <RefreshCw className={`w-3 h-3${connecting ? " animate-spin" : ""}`} />
             {connecting ? "Reconnecting…" : "Re-authorise"}
           </button>
         )}
         {connector.status === "connected" && (
-          <button
-            onClick={onDisconnect}
-            className="flex items-center gap-1.5 h-[30px] px-3 rounded-full text-[12.5px] font-semibold text-stone hover:bg-surface-soft hover:text-danger transition-colors"
-          >
+          <button onClick={onDisconnect} className="btn btn-ghost btn-sm" style={{ color: "#727680" }}>
             <Unlink className="w-3 h-3" /> Disconnect
           </button>
         )}
