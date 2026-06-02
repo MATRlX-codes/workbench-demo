@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir -p \"/Users/davidgahan/Library/Application Support/Claude/local-agent-mode-sessions/b97d8544-2296-4984-bcd9-f1c664c5766b/52a0b413-3d72-427f-a8c2-d9ec007b55ba/local_e97c36eb-3b96-40e0-86f2-ac27201063bb/outputs/workbench/app/api/auth/connect/[connector]\")",
+      "Bash(mkdir -p \"/Users/davidgahan/Library/Application Support/Claude/local-agent-mode-sessions/b97d8544-2296-4984-bcd9-f1c664c5766b/52a0b413-3d72-427f-a8c2-d9ec007b55ba/local_e97c36eb-3b96-40e0-86f2-ac27201063bb/outputs/workbench/app/api/auth/callback/[connector]\")",
+      "Bash(npx tsc *)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(gunzip -c \"/Users/davidgahan/.claude/projects/-Users-davidgahan-Library-Application-Support-Claude-local-agent-mode-sessions-b97d8544-2296-4984-bcd9-f1c664c5766b-52a0b413-3d72-427f-a8c2-d9ec007b55ba-local-e97c36eb-3b96-40e0-86f2-ac27201063bb-outp-vrppre/f6c2e48f-e290-4581-88c8-6f5c60db84af/tool-results/webfetch-1779927513332-a45gck.bin\")",
+      "Read(//private/tmp/**)",
+      "Bash(mkdir -p workbench-design)",
+      "Bash(tar xf *)",
+      "Read(//tmp/**)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm build *)",
+      "Bash(curl -sL \"https://api.anthropic.com/v1/design/h/jltMRxccNyklLATKTlVoSw?open_file=workbench-v3.html\" -o design-v3.bin)",
+      "Bash(mkdir -p design-v3)",
+      "Bash(gunzip -c design-v3.bin)",
+      "Bash(tar -xf - -C design-v3)"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+# Node
+node_modules/
+.pnpm-debug.log*
+.npm
+.yarn/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Drizzle migrations cache
+.drizzle/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Encryption keys — never commit
+*.key
+*.pem
